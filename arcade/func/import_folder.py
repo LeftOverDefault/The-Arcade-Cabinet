@@ -1,4 +1,4 @@
-from src.utils.imports import *
+from arcade.utils.imports import *
 
 
 def import_folder(path) -> list:

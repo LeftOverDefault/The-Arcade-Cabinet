@@ -1,5 +1,5 @@
-from arcade.classes.camera import Camera
-from arcade.classes.player import Player
+from arcade.classes.camera.top_down_camera import Camera
+from arcade.classes.player.top_down_player import Player
 from arcade.utils.imports import *
 
 
