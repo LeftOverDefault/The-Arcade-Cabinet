@@ -1,0 +1,17 @@
+{
+    "name": "Test",
+    "resolution": [
+        960,
+        540
+    ],
+    "fps": 60,
+    "tile_size": 16,
+    "scale_factor": 4,
+    "keys": {
+        "move_up": "w",
+        "move_down": "s",
+        "move_left": "a",
+        "move_right": "d"
+    },
+    "camera_delay": 25
+}
