@@ -1,12 +1,13 @@
 {
     "name": "Test",
+    "version": "0.1.0",
     "resolution": [
-        960,
-        540
+        192,
+        108
     ],
     "fps": 60,
     "tile_size": 16,
-    "scale_factor": 4,
+    "scale_factor": 5,
     "keys": {
         "move_up": "w",
         "move_down": "s",

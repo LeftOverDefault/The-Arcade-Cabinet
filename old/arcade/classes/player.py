@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(0, 0))
 
         self.direction = pygame.Vector2()
-        self.speed = 200
+        self.speed = 35 * config["scale_factor"]
 
         self.keys = {}
         for key in config["keys"]:
@@ -41,8 +41,8 @@ class Player(pygame.sprite.Sprite):
         if self.direction.magnitude() > 0:
             self.direction.normalize()
         
-        self.rect.x += self.direction.x * self.speed * delta_time
-        self.rect.y += self.direction.y * self.speed * delta_time
+        self.rect.x += round(self.direction.x * self.speed * delta_time)
+        self.rect.y += round(self.direction.y * self.speed * delta_time)
 
 
     # def collide_x(self):

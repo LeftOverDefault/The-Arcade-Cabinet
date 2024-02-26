@@ -21,6 +21,8 @@ class Camera(pygame.sprite.Group):
         self.mouse_speed = 0.15
         self.keyboard_speed = 3.5
 
+        self.group_array = []
+
 
     def center_target_camera(self, target: pygame.sprite.Sprite):
         self.offset.x = target.rect.centerx - self.half_width
@@ -32,7 +34,7 @@ class Camera(pygame.sprite.Group):
         self.offset.y += (target.rect.centery - self.half_height - self.offset.y) / config["camera_delay"]
     
 
-    def box_target_camera(self,target):
+    def box_target_camera(self, target):
         if target.rect.left < self.camera_rect.left:
             self.camera_rect.left = target.rect.left
         if target.rect.right > self.camera_rect.right:
@@ -99,13 +101,25 @@ class Camera(pygame.sprite.Group):
                 # pygame.mouse.set_pos((mouse.x,bottom_border))
 
         self.offset += mouse_offset_vector * self.mouse_speed
+    
+
+    def add_group(self, group: pygame.sprite.Group):
+        self.group_array.append(group)
+
 
     def draw(self, player):
         self.delayed_center_target_camera(target=player)
 
-        for sprite in self.sprites():
-            offset_pos = sprite.rect.topleft - self.offset
-            self.display_surface.blit(sprite.image, offset_pos)
+        # for sprite in sorted(self.sprite_array, key=lambda sprite: (sprite.rect.centery)):
+        #     offset_pos = sprite.rect.topleft - self.offset
+        #     self.display_surface.blit(sprite.image, offset_pos)
+
+        for group in self.group_array:
+            if group.y_sorted == True:
+                for sprite in sorted(group.sprite_array, key=lambda sprite: sprite.rect.centery):
+                    offset_pos = sprite.rect.topleft - self.offset
+                    self.display_surface.blit(source=sprite.image, dest=offset_pos)
+
 
         # for group in self.y_sorted_groups:
         #     for sprite in sorted(group, key=lambda sprite: sprite.rect.centery):
