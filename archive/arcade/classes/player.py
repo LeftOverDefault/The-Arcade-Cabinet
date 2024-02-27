@@ -7,7 +7,8 @@ class Player(pygame.sprite.Sprite):
         super().__init__(group)
 
         self.image = pygame.Surface((config["tile_size"], config["tile_size"]))
-        self.image = pygame.transform.scale_by(self.image, config["scale_factor"])
+        # self.image = pygame.Surface((config["tile_size"] * config["scale_factor"], config["tile_size"] * config["scale_factor"]))
+        # self.image = pygame.transform.scale_by(self.image, config["scale_factor"])
         self.image.fill((255, 0, 0))
         self.rect = self.image.get_rect(center=(0, 0))
 

@@ -1,1 +1,5 @@
-arcade/__pycache__
+arcade/top_down/classes/__pycache__
+arcade/top_down/classes/tile/__pycache__
+arcade/top_down/func/__pycache__
+arcade/top_down/interface/__pycache__
+arcade/top_down/utils/__pycache__
