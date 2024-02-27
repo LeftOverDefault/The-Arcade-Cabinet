@@ -1,3 +1,3 @@
-from arcade.top_down import *
+from arcade import *
 
 from world_engine import *
