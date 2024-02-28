@@ -3,7 +3,10 @@ from arcade.utils.imports import *
 
 class Configure:
     def __init__(self, config) -> None:
+        print(config)
         self.config = config
 
-        for key, value in self.config.items():
+        items = config.items()
+
+        for key, value in config.items():
             setattr(self, key, value)

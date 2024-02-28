@@ -1,4 +1,9 @@
 import arcade
+from arcade.classes.camera import Camera
+from arcade.classes.configure import Configure
+from arcade.classes.layer import Layer
+from arcade.classes.player import Player
+from arcade.debug.debugger import Debugger
 
 
 # world = {
@@ -29,14 +34,46 @@ import arcade
 #     ]
 # }
 
-
 config = {
     "name": "Arcade Test",
     "version": "0.1.0",
-    "scale_factor": 2
+    "scale_factor": 2,
+    "debug": True
 }
 
 
+class Main:
+    def __init__(self) -> None:
+        self.window = arcade.Window(config)
+        self.camera = Camera(self.window.display_surface)
+        self.player = Player((0, 0), self.camera)
+
+        self.window.render = self.render
+        self.window.update = self.update
+
+        self.debugger = Debugger(self.window.config)
+
+
+
+        self.layer_1 = Layer(False, True)
+
+        self.camera.add_group(self.layer_1, self.player)
+
+
+    def render(self):
+        self.camera.draw(self.player)
+        self.window.screen.blit(arcade.pygame.transform.scale(self.window.display_surface, self.window.screen.get_size()), (0, 0))
+        self.debugger.draw(self.window.clock, self.window.delta_time, self.player)
+
+
+    def update(self):
+        self.camera.update(self.window.delta_time)
+
+
+    def run(self):
+        self.window.run()
+
+
 if __name__ == "__main__":
-    window = arcade.Window(config)
-    window.run()
+    main = Main()
+    main.run()
