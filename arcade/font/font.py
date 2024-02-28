@@ -4,7 +4,7 @@ from arcade.utils.imports import *
 class Font:
     def __init__(self, path, size, color) -> None:
         self.spacing = 1
-        self.character_order = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','.','-',',',':','+','\'','!','?','0','1','2','3','4','5','6','7','8','9','(',')','/','_','=','\\','[',']','*','"','<','>',';']
+        self.character_order = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ".", "-", ",", ":", "+", "'", "!", "?", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "(", ")", "/", "_", "=", "\\", "[", "]", "*", "\"", "<", ">", ";"]
         font_img = pygame.image.load(path).convert_alpha()
         current_char_width = 0
         self.characters = {}
@@ -13,10 +13,10 @@ class Font:
         for x in range(font_img.get_width()):
             c = font_img.get_at((x, 0))
             if c[0] == 127:
-                char_img = self.clip(font_img, x - current_char_width, 0, current_char_width, font_img.get_height())
-                char_img.fill((0, 0, 0, 255), None, pygame.BLEND_RGBA_MULT)
-                char_img.fill(color[0:3] + (0,), None, pygame.BLEND_RGBA_ADD)
-                char_img = pygame.transform.scale_by(char_img, size)
+                char_img = self.clip(surface=font_img, x=x - current_char_width, y=0, x_size=current_char_width, y_size=font_img.get_height())
+                char_img.fill(color=(0, 0, 0, 255), rect=None, special_flags=pygame.BLEND_RGBA_MULT)
+                char_img.fill(color=color[0:3] + (0,), rect=None, special_flags=pygame.BLEND_RGBA_ADD)
+                char_img = pygame.transform.scale_by(surface=char_img, factor=size)
                 self.characters[self.character_order[character_count]] = char_img.copy()
                 character_count += 1
                 current_char_width = 0
@@ -28,7 +28,7 @@ class Font:
 
     def clip(self, surface: pygame.Surface, x, y, x_size, y_size):
         handle_surface = surface.copy()
-        clip_rect = pygame.Rect(x,y,x_size,y_size)
+        clip_rect = pygame.Rect(x, y, x_size, y_size)
         handle_surface.set_clip(clip_rect)
         image = surface.subsurface(handle_surface.get_clip())
         return image.copy()
@@ -38,7 +38,7 @@ class Font:
         x_offset = 0
         for char in text:
             if char != " ":
-                surface.blit(self.characters[char], (location[0] + x_offset, location[1]))
+                surface.blit(source=self.characters[char], dest=(location[0] + x_offset, location[1]))
                 x_offset += self.characters[char].get_width() + self.spacing
             else:
                 x_offset += self.space_width + self.spacing

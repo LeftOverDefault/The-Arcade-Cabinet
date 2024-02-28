@@ -1,8 +1,10 @@
+import pygame
 import arcade
 from arcade.classes.camera import Camera
 from arcade.classes.configure import Configure
 from arcade.classes.layer import Layer
 from arcade.classes.player import Player
+from arcade.classes.tile.tile import Tile
 from arcade.debug.debugger import Debugger
 
 
@@ -38,36 +40,70 @@ config = {
     "name": "Arcade Test",
     "version": "0.1.0",
     "scale_factor": 2,
-    "debug": True
+    "tile_size": 16,
+    "chunk_size": 8,
+    "debug": True,
 }
 
 
 class Main:
     def __init__(self) -> None:
-        self.window = arcade.Window(config)
-        self.camera = Camera(self.window.display_surface)
-        self.player = Player((0, 0), self.camera)
+        self.layer_1 = Layer(y_sorted=True, collidable=False)
+        self.window = arcade.Window(config=config)
+        self.debugger = Debugger(font_path="./assets/font/font.png", config=self.window.config)
+
+        self.camera = Camera(display_surface=self.window.display_surface)
+        self.player = Player(initial_position=(0, 0), path="./assets/sprite/entity/player/", group=self.layer_1, config=self.window.config)
 
         self.window.render = self.render
         self.window.update = self.update
+        self.window.event = self.event
+        self.debugger.render = self.debug_render
 
-        self.debugger = Debugger(self.window.config)
+
+        self.camera.camera_delay = 25
+
+        self.layer_2 = Layer(y_sorted=True, collidable=True)
+
+        tile = Tile(position=(0, 0), group=self.layer_2, config=self.window.config)
+
+        self.camera.add_group(group=self.layer_1, player=self.player)
+        self.camera.add_group(group=self.layer_2, player=self.player)
 
 
-
-        self.layer_1 = Layer(False, True)
-
-        self.camera.add_group(self.layer_1, self.player)
+        # pygame.mouse.set_visible(False)
+        # self.mouse_pos = pygame.Vector2()
+        # self.mouse_img = pygame.transform.scale_by(pygame.image.load("./assets/sprite/mouse.png").convert_alpha(), 2)
 
 
     def render(self):
-        self.camera.draw(self.player)
-        self.window.screen.blit(arcade.pygame.transform.scale(self.window.display_surface, self.window.screen.get_size()), (0, 0))
-        self.debugger.draw(self.window.clock, self.window.delta_time, self.player)
+        self.window.display_surface.fill((255, 255, 255))
+        self.camera.draw(player=self.player)
+        self.window.screen.blit(source=arcade.pygame.transform.scale(surface=self.window.display_surface, size=self.window.screen.get_size()), dest=(0, 0))
+        self.debugger.draw()
+
+        # self.window.screen.blit(self.mouse_img, self.mouse_pos)
+    
+
+    def debug_render(self):
+        self.debugger.font.render(surface=self.debugger.surface, text=f"FPS: {round(number=self.window.clock.get_fps())}", location=(10, 10))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Delta Time: {round(self.window.delta_time, 4)}", location=(10, 10 + self.debugger.font.line_height))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Player Pos: x = {int(self.player.position.x)}, y = {int(self.player.position.y)}", location=(10, 10 + (2 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Player State: {self.player.status}", location=(10, 10 + (3 * self.debugger.font.line_height)))
 
 
     def update(self):
-        self.camera.update(self.window.delta_time)
+        self.camera.update(delta_time=self.window.delta_time)
+        self.mouse_pos = pygame.mouse.get_pos()
+
+        pygame.event.set_grab(True)
+    
+
+    def event(self, event):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                pygame.quit()
+                exit()
 
 
     def run(self):

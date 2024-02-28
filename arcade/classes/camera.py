@@ -1,3 +1,4 @@
+from arcade.classes.layer import Layer
 from arcade.utils.imports import *
 
 
@@ -10,12 +11,14 @@ class Camera(pygame.sprite.Group):
         self.half_width = self.display_surface.get_width() // 2
         self.half_height = self.display_surface.get_height() // 2
         
-        self.y_sorts = []
+        self.y_sorts = Layer(True, False)
+
+        self.camera_delay = 25
 
 
     def center_target_camera(self, target):
-        self.offset.x += (target.rect.centerx - self.half_width - self.offset.x) / 30
-        self.offset.y += (target.rect.centery - self.half_height - self.offset.y) / 30
+        self.offset.x += (target.rect.centerx - self.half_width - self.offset.x) / self.camera_delay
+        self.offset.y += (target.rect.centery - self.half_height - self.offset.y) / self.camera_delay
     
     
     def add_group(self, group, player):
@@ -23,7 +26,8 @@ class Camera(pygame.sprite.Group):
             player.collision_groups.append(group)
 
         if group.y_sorted == True:
-            self.y_sorts.append(group)
+            for sprite in group.sprites():
+                self.y_sorts.add(sprite)
         else:
             for sprite in group:
                 self.add(sprite)
@@ -36,7 +40,17 @@ class Camera(pygame.sprite.Group):
             offset = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset)
 
-        for group in self.y_sorts:
-            for sprite in sorted(group, lambda sprite: sprite.rect.centery):
-                offset = sprite.rect.topleft - self.offset
-                self.display_surface.blit(sprite.image, offset)
+        # for sprite in sorted(group.sprites(), key=lambda sprite: sprite.rect.centery):
+            # offset = sprite.rect.topleft - self.offset
+            # self.display_surface.blit(sprite.image, offset)
+        for sprite in sorted(self.y_sorts.sprites(), key=lambda sprite: sprite.rect.centery):
+            offset_pos = sprite.rect.topleft - self.offset
+            self.display_surface.blit(source=sprite.image, dest=offset_pos)
+    
+
+    def update(self, delta_time):
+        for sprite in self:
+            sprite.update(delta_time)
+        
+        for sprite in self.y_sorts.sprites():
+            sprite.update(delta_time)

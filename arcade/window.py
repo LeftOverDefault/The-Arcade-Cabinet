@@ -13,7 +13,8 @@ class Window:
         pygame.display.set_caption(f"{self.config.name} v{self.config.version}")
 
         self.on_init()
-    
+
+
     def on_init(self):
         self.screen = pygame.display.set_mode((192 * 6, 108 * 6))
         self.display_surface = pygame.Surface((192 * 1.75, 108 * 1.75))
@@ -22,10 +23,7 @@ class Window:
         self.fps = 60
 
         self.fullscreen = False
-
-        self.group = Camera(self.display_surface)
-
-        self.player = Player((0, 0), self.group)
+        self.running = True
 
 
     def render(self):
@@ -36,8 +34,12 @@ class Window:
         ...
 
 
+    def event(self, event):
+        ...
+
+
     def run(self):
-        while True:
+        while self.running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -49,6 +51,7 @@ class Window:
                             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                         else:
                             self.screen = pygame.display.set_mode((192 * 6, 108 * 6))
+                self.event(event=event)
 
             self.display_surface.fill((0, 0, 0))
 
