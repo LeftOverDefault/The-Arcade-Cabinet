@@ -1,42 +1,43 @@
 import pygame
 import arcade
 from arcade.classes.camera import Camera
-from arcade.classes.layer import Layer
 from arcade.classes.player import Player
+from arcade.classes.world import World
 from arcade.debug.debugger import Debugger
 from arcade.func.generate_chunk import generate_chunk
+from arcade.func.render_chunk import render_chunk
 
 
 chunks = {
     "0;0": {
-        # "0;0": -1, "1;0": -1, "2;0": -1, "3;0": -1, "4;0": -1, "5;0": -1, "6;0": -1, "7;0": -1,
-        # "0;1": -1, "1;1": -1, "2;1": -1, "3;1": -1, "4;1": -1, "5;1": -1, "6;1": -1, "7;1": -1,
-        # "0;2": -1, "1;2": -1, "2;2": -1, "3;2": -1, "4;2": -1, "5;2": -1, "6;2": -1, "7;2": -1,
-        # "0;3": -1, "1;3": -1, "2;3": -1, "3;3": -1, "4;3": -1, "5;3": -1, "6;3": -1, "7;3": -1,
-        # "0;4": -1, "1;4": -1, "2;4": -1, "3;4": -1, "4;4": -1, "5;4": -1, "6;4": -1, "7;4": -1,
-        # "0;5": -1, "1;5": -1, "2;5": -1, "3;5": -1, "4;5": -1, "5;5": -1, "6;5": -1, "7;5": -1,
-        # "0;6": -1, "1;6": -1, "2;6": -1, "3;6": -1, "4;6": -1, "5;6": -1, "6;6": -1, "7;6": -1,
-        # "0;7": 0, "1;7": 0, "2;7": 0, "3;7": 0, "4;7": 0, "5;7": 0, "6;7": 0, "7;7": 0,
+        "0;0": -1, "1;0": -1, "2;0": -1, "3;0": -1, "4;0": -1, "5;0": -1, "6;0": -1, "7;0": -1,
+        "0;1": -1, "1;1": -1, "2;1": -1, "3;1": -1, "4;1": -1, "5;1": -1, "6;1": -1, "7;1": -1,
+        "0;2": -1, "1;2": -1, "2;2": -1, "3;2": -1, "4;2": -1, "5;2": -1, "6;2": -1, "7;2": -1,
+        "0;3": -1, "1;3": -1, "2;3": -1, "3;3": -1, "4;3": -1, "5;3": -1, "6;3": -1, "7;3": -1,
+        "0;4": -1, "1;4": -1, "2;4": -1, "3;4": -1, "4;4": -1, "5;4": -1, "6;4": -1, "7;4": -1,
+        "0;5": -1, "1;5": -1, "2;5": -1, "3;5": -1, "4;5": -1, "5;5": -1, "6;5": -1, "7;5": -1,
+        "0;6": -1, "1;6": -1, "2;6": -1, "3;6": -1, "4;6": -1, "5;6": -1, "6;6": -1, "7;6": -1,
+        "0;7": 0, "1;7": 0, "2;7": 0, "3;7": 0, "4;7": 0, "5;7": 0, "6;7": 0, "7;7": 0,
     },
-    "1;0": {},
-    "2;0": {},
-    "3;0": {},
-    "4;0": {},
-    "0;1": {},
-    "1;1": {},
-    "2;1": {},
-    "3;1": {},
-    "4;1": {},
-    "0;2": {},
-    "1;2": {},
-    "2;2": {},
-    "3;2": {},
-    "4;2": {},
-    "0;3": {},
-    "1;3": {},
-    "2;3": {},
-    "3;3": {},
-    "4;3": {},
+    # "1;0": {},
+    # "2;0": {},
+    # "3;0": {},
+    # "4;0": {},
+    # "0;1": {},
+    # "1;1": {},
+    # "2;1": {},
+    # "3;1": {},
+    # "4;1": {},
+    # "0;2": {},
+    # "1;2": {},
+    # "2;2": {},
+    # "3;2": {},
+    # "4;2": {},
+    # "0;3": {},
+    # "1;3": {},
+    # "2;3": {},
+    # "3;3": {},
+    # "4;3": {},
 }
 
 # config = {
@@ -69,11 +70,8 @@ def render_chunk(config, chunk_coordinates, chunk_x_offset, chunk_y_offset):
     for coordinate in chunk_coordinates:
         tile_x = (coordinate[0] * config.tile_size) + chunk_x_offset
         tile_y = (coordinate[1] * config.tile_size) + chunk_y_offset
-
         tiles.append([tile_x, tile_y])
-
     return tiles
-
 
 
 class Main:
@@ -91,9 +89,11 @@ class Main:
 
         self.camera.camera_delay = 25
 
-        self.test_tile = pygame.image.load("./assets/sprite/environment/tile.png").convert_alpha()
-
         self.tile_count = len(chunks) * self.window.config.chunk_size ** 2
+
+        self.world = World(self.window.display_surface, chunks, self.window.config)
+        self.world.camer = self.camera
+        self.world.player = self.player
 
         # pygame.mouse.set_visible(False)
         # self.mouse_pos = pygame.Vector2()
@@ -103,29 +103,7 @@ class Main:
     def render(self) -> None:
         self.window.display_surface.fill((255, 255, 255))
 
-        for chunk_location in chunks:
-            chunk_x = int(chunk_location.split(";")[0])
-            chunk_y = int(chunk_location.split(";")[1])
-            chunk_coordinated = generate_chunk(config=self.window.config, x=chunk_x, y=chunk_y)
-            tiles = render_chunk(config=self.window.config, chunk_coordinates=chunk_coordinated, chunk_x_offset=round(chunk_x / self.window.config.chunk_size) - self.camera.offset.x, chunk_y_offset=round(chunk_y / self.window.config.chunk_size) - self.camera.offset.y)
-
-            chunk_x *= self.window.config.chunk_size * self.window.config.tile_size
-            chunk_y *= self.window.config.chunk_size * self.window.config.tile_size
-
-            camera_left = self.camera.offset.x
-            camera_right = self.camera.offset.x + self.camera.display_surface.get_width()
-            camera_top = self.camera.offset.y
-            camera_bottom = self.camera.offset.y + self.camera.display_surface.get_height()
-
-            in_left = camera_left <= (chunk_x) + (self.window.config.chunk_size * self.window.config.tile_size)
-            in_right = camera_right >= chunk_x
-            in_top = camera_top <= (chunk_y) + (self.window.config.chunk_size * self.window.config.tile_size)
-            in_bottom = camera_bottom >= chunk_y
-
-            if in_left and in_right:
-                if in_top and in_bottom:
-                    for tile in tiles:
-                        self.window.display_surface.blit(source=self.test_tile.copy(), dest=tile)
+        self.world.render(self.camera.offset)
 
         self.camera.draw(player=self.player)
         self.window.screen.blit(source=arcade.pygame.transform.scale(surface=self.window.display_surface, size=self.window.screen.get_size()), dest=(0, 0))

@@ -15,8 +15,6 @@ class Camera(pygame.sprite.Group):
 
         self.camera_delay = 25
 
-        self.delta_time = 1
-
 
     def center_target_camera(self, target):
         self.offset.x += (target.rect.centerx - self.half_width - self.offset.x) / self.camera_delay
