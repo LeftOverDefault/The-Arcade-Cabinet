@@ -15,12 +15,14 @@ class Camera(pygame.sprite.Group):
 
         self.camera_delay = 25
 
+        self.delta_time = 1
+
 
     def center_target_camera(self, target):
         self.offset.x += (target.rect.centerx - self.half_width - self.offset.x) / self.camera_delay
         self.offset.y += (target.rect.centery - self.half_height - self.offset.y) / self.camera_delay
-    
-    
+
+
     def add_group(self, group, player):
         if group.collidable:
             player.collision_groups.append(group)
@@ -34,7 +36,7 @@ class Camera(pygame.sprite.Group):
 
 
     def draw(self, player):
-        self.center_target_camera(player)
+        self.center_target_camera(target=player)
 
         for sprite in self:
             offset = sprite.rect.topleft - self.offset

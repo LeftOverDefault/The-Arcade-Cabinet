@@ -16,7 +16,7 @@ class Debugger:
 
 
     def draw(self) -> None:
-        self.surface.fill(color=(100, 100, 100, 100))
+        self.surface.fill(color=(100, 100, 100, 150))
 
         self.render()
 
