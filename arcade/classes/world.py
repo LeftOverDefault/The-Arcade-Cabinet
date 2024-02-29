@@ -14,13 +14,16 @@ class World:
 
         self.test_tile = pygame.image.load("./assets/sprite/environment/tile.png").convert_alpha()
 
+        self.tile_x = [x for x in range(0, 8)]
+        self.tile_y = [y for y in range(0, 8)]
+
     
     def render(self, camera_offset):
         for chunk_location in self.world_data:
             chunk_x = int(chunk_location.split(";")[0])
             chunk_y = int(chunk_location.split(";")[1])
-            chunk_coordinated = generate_chunk(config=self.config, x=chunk_x, y=chunk_y)
-            tiles = render_chunk(config=self.config, chunk_coordinates=chunk_coordinated, chunk_x_offset=round(chunk_x / self.config.chunk_size) - camera_offset.x, chunk_y_offset=round(chunk_y / self.config.chunk_size) - camera_offset.y)
+            chunk_coordinates = generate_chunk(config=self.config, world_data=self.world_data, x=chunk_x, y=chunk_y)
+            tiles = render_chunk(config=self.config, chunk_coordinates=chunk_coordinates, chunk_x_offset=round(chunk_x / self.config.chunk_size) - camera_offset.x, chunk_y_offset=round(chunk_y / self.config.chunk_size) - camera_offset.y)
 
             chunk_x_offset = chunk_x * self.config.chunk_size * self.config.tile_size
             chunk_y_offset = chunk_y * self.config.chunk_size * self.config.tile_size
@@ -37,7 +40,6 @@ class World:
 
             if in_left and in_right:
                 if in_top and in_bottom:
-                    for tile in tiles:
-                        print(self.world_data[f"{chunk_x};{chunk_y}"][f"{int(tile[0] / self.config.tile_size)};{int(tile[1] / self.config.tile_size)}"])
-                        if self.world_data[f"{chunk_x};{chunk_y}"][f"{int(tile[0] / self.config.tile_size)};{int(tile[1] / self.config.tile_size)}"] == 0:
+                    for tile, value in tiles:
+                        if int(value) != -1:
                             self.display_surface.blit(source=self.test_tile.copy(), dest=tile)

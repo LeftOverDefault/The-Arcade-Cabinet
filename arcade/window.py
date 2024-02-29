@@ -16,8 +16,8 @@ class Window:
 
 
     def on_init(self):
-        self.screen = pygame.display.set_mode((192 * 6, 108 * 6))
-        self.display_surface = pygame.Surface((192 * 1.5, 108 * 1.5))
+        self.screen = pygame.display.set_mode((192 * 8, 108 * 8))
+        self.display_surface = pygame.Surface((192 * 2, 108 * 2))
 
         self.clock = pygame.time.Clock()
         self.fps = 60

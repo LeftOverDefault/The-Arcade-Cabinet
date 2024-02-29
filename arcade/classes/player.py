@@ -11,7 +11,8 @@ class Player(pygame.sprite.Sprite):
 
         self.direction = pygame.math.Vector2()
         self.position = pygame.math.Vector2(x=initial_position)
-        self.speed = 75
+        self.speed = 0.01
+        # self.speed = 75
         self.animation_speed = 4.5
 
         self.frame_index = 0
@@ -59,9 +60,9 @@ class Player(pygame.sprite.Sprite):
         if self.direction.magnitude() > 0:
             self.direction.normalize()
 
-        self.rect.x += round(number=self.direction.x * self.speed * delta_time)
+        self.rect.x += round(number=self.direction.x * self.speed / delta_time)
         self.collide_x()
-        self.rect.y += round(number=self.direction.y * self.speed * delta_time)
+        self.rect.y += round(number=self.direction.y * self.speed / delta_time)
         self.collide_y()
 
 
