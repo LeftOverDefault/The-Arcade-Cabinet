@@ -23,7 +23,7 @@ class Font:
             else:
                 current_char_width += 1
         self.space_width = self.characters["A"].get_width()
-        self.line_height = self.characters["A"].get_height()
+        self.line_height = self.characters["A"].get_height() + 4
 
 
     def clip(self, surface: pygame.Surface, x, y, x_size, y_size):

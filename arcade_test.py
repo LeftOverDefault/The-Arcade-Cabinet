@@ -93,6 +93,8 @@ class Main:
 
         self.test_tile = pygame.image.load("./assets/sprite/environment/tile.png").convert_alpha()
 
+        self.tile_count = len(chunks) * self.window.config.chunk_size ** 2
+
         # pygame.mouse.set_visible(False)
         # self.mouse_pos = pygame.Vector2()
         # self.mouse_img = pygame.transform.scale_by(pygame.image.load("./assets/sprite/mouse.png").convert_alpha(), 2)
@@ -132,10 +134,12 @@ class Main:
 
 
     def debug_render(self) -> None:
-        self.debugger.font.render(surface=self.debugger.surface, text=f"FPS: {round(number=self.window.clock.get_fps())}", location=(10, 10))
-        self.debugger.font.render(surface=self.debugger.surface, text=f"Delta Time: {round(self.window.delta_time, 4)}", location=(10, 10 + self.debugger.font.line_height))
-        self.debugger.font.render(surface=self.debugger.surface, text=f"Player Pos: x = {int(self.player.position.x)}, y = {int(self.player.position.y)}", location=(10, 10 + (2 * self.debugger.font.line_height)))
-        self.debugger.font.render(surface=self.debugger.surface, text=f"Player State: {self.player.status}", location=(10, 10 + (3 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Debug Menu:", location=(10, 10 + (0 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"FPS: {round(number=self.window.clock.get_fps())}", location=(10, 10 + (1 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Delta Time: {round(self.window.delta_time, 4)}", location=(10, 10 + (2 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Player Pos: x = {int(self.player.position.x)}, y = {int(self.player.position.y)}", location=(10, 10 + (3 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Player State: {self.player.status}", location=(10, 10 + (4 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Tile Count: {self.tile_count}", location=(10, 10 + (5 * self.debugger.font.line_height)))
 
 
     def update(self):
