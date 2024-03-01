@@ -1,4 +1,5 @@
 from arcade.classes.camera import Camera
+from arcade.func.import_cut_graphics import import_cut_graphics
 # from arcade.func.generate_chunk import generate_chunk
 # from arcade.func.render_chunk import render_chunk
 from arcade.utils.imports import *
@@ -11,7 +12,7 @@ class World:
         self.chunks = []
         self.config = config
 
-        self.test_tile = pygame.image.load("./assets/sprite/environment/tile.png").convert_alpha()
+        self.test_tile = import_cut_graphics("./assets/sprite/tilesets/plains.png", self.config)
 
         for chunk_location in self.world_data:
             chunk = {}
@@ -65,4 +66,4 @@ class World:
             if in_right and in_left and in_bottom and in_top:
                 for tile in tiles:
                     if int(tile[1]) != -1:
-                        self.display_surface.blit(self.test_tile.copy(), (tile[0][0] - camera_offset.x, tile[0][1] - camera_offset.y))
+                        self.display_surface.blit(self.test_tile[tile[1]].copy(), (tile[0][0] - camera_offset.x, tile[0][1] - camera_offset.y))
