@@ -84,6 +84,11 @@ class Camera(pygame.sprite.Group):
                 mouse_offset_vector.y = mouse.y - self.bottom_border
 
         self.offset += mouse_offset_vector * self.mouse_speed * delta_time
+    
+
+    def add_group(self, group) -> None:
+        for sprite in group:
+            self.add(sprite)
 
 
     def draw(self):
@@ -93,5 +98,5 @@ class Camera(pygame.sprite.Group):
 
 
     def update(self, delta_time):
-        self.keyboard_control(delta_time)
-        # self.mouse_control(delta_time)
+        # self.keyboard_control(delta_time)
+        self.mouse_control(delta_time)

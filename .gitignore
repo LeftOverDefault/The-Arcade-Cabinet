@@ -8,6 +8,7 @@ arcade/font/__pycache__
 arcade/debug/__pycache__
 
 world_engine/__pycache__
+world_engine/func/__pycache__
 world_engine/classes/__pycache__
 world_engine/data/__pycache__
 world_engine/interface/__pycache__

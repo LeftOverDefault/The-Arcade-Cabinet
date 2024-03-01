@@ -1,1 +1,1 @@
-from world_engine.engine import Engine
+from world_engine.world_engine import WorldEngine
