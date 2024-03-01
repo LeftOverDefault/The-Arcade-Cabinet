@@ -9,13 +9,24 @@ class AnimatedSprite(Sprite):
         self.frame_index = 0
         self.animations = import_folder(path)
         self.image = pygame.image.load(f"{path}0.png").convert_alpha()
+        self.rect = self.image.get_rect(center=position)
+
+        self.animation_speed = 4.5
 
     
     def animate(self, delta_time) -> None:
-        animation = self.animations[self.status]
         self.frame_index += self.animation_speed * delta_time
 
-        if self.frame_index >= len(animation):
+        if self.frame_index >= len(self.animations):
             self.frame_index = 0
 
-        self.image = animation[int(self.frame_index)]
+        self.image = self.animations[int(self.frame_index)]
+    
+
+    # def move(self, delta_time):
+        # self.rect.x -= 1
+    
+
+    def update(self, delta_time):
+        # self.move(delta_time=delta_time)
+        self.animate(delta_time)

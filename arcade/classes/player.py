@@ -1,3 +1,4 @@
+from arcade.classes.sprite.animated_sprite import AnimatedSprite
 from arcade.func.import_folder import import_folder
 from arcade.utils.imports import *
 
@@ -19,6 +20,9 @@ class Player(pygame.sprite.Sprite):
         self.status = "idle_down"
 
         self.collision_groups = []
+
+
+        self.particle = AnimatedSprite("./assets/sprite/environment/particle/", self.rect.bottomleft, group)
 
 
     def get_animations(self, path) -> None:
