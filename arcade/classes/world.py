@@ -1,45 +1,68 @@
 from arcade.classes.camera import Camera
-from arcade.func.generate_chunk import generate_chunk
-from arcade.func.render_chunk import render_chunk
+# from arcade.func.generate_chunk import generate_chunk
+# from arcade.func.render_chunk import render_chunk
 from arcade.utils.imports import *
 
 
 class World:
     def __init__(self, display_surface, world_data, config) -> None:
-        self.world_data = world_data
         self.display_surface = display_surface
+        self.world_data = world_data
+        self.chunks = []
         self.config = config
-        self.camera = Camera(self.display_surface)
-        self.player = None
 
         self.test_tile = pygame.image.load("./assets/sprite/environment/tile.png").convert_alpha()
 
-        self.tile_x = [x for x in range(0, 8)]
-        self.tile_y = [y for y in range(0, 8)]
-
-    
-    def render(self, camera_offset):
         for chunk_location in self.world_data:
+            chunk = {}
             chunk_x = int(chunk_location.split(";")[0])
             chunk_y = int(chunk_location.split(";")[1])
-            chunk_coordinates = generate_chunk(config=self.config, world_data=self.world_data, x=chunk_x, y=chunk_y)
-            tiles = render_chunk(config=self.config, chunk_coordinates=chunk_coordinates, chunk_x_offset=round(chunk_x / self.config.chunk_size) - camera_offset.x, chunk_y_offset=round(chunk_y / self.config.chunk_size) - camera_offset.y)
-
+            chunk_data = self.generate_chunk(x=chunk_x, y=chunk_y)
             chunk_x_offset = chunk_x * self.config.chunk_size * self.config.tile_size
             chunk_y_offset = chunk_y * self.config.chunk_size * self.config.tile_size
+            chunk["data"] = chunk_data
+            chunk["offset"] = [chunk_x_offset, chunk_y_offset]
+            self.chunks.append(chunk)
 
+
+    def generate_chunk(self, x, y) -> dict:
+        chunk_data = []
+        for chunk_x_offset in range(0, self.config.chunk_size):
+            for chunk_y_offset in range(0, self.config.chunk_size):
+                tile_value = self.world_data[f"{x};{y}"][f"{chunk_x_offset};{chunk_y_offset}"]
+                chunk_x_target = chunk_x_offset
+                chunk_y_target = chunk_y_offset
+                chunk_data.append(([chunk_x_target, chunk_y_target], tile_value))
+        return chunk_data
+
+
+    def render_chunk(self, chunk, chunk_offset) -> None:
+        tiles = []
+        for coordinate, value in chunk["data"]:
+            tile_x = round(coordinate[0] * self.config.tile_size) + int(chunk_offset[0])
+            tile_y = round(coordinate[1] * self.config.tile_size) + int(chunk_offset[1])
+            tiles.append(([tile_x, tile_y], value))
+        return tiles
+
+
+    def render(self, camera_offset) -> None:
+        for chunk in self.chunks:
             camera_left = camera_offset.x
             camera_right = camera_offset.x + self.display_surface.get_width()
             camera_top = camera_offset.y
             camera_bottom = camera_offset.y + self.display_surface.get_height()
+            
+            chunk_x_offset = chunk["offset"][0]
+            chunk_y_offset = chunk["offset"][1]
 
             in_left = camera_left <= (chunk_x_offset) + (self.config.chunk_size * self.config.tile_size)
             in_right = camera_right >= chunk_x_offset
             in_top = camera_top <= (chunk_y_offset) + (self.config.chunk_size * self.config.tile_size)
             in_bottom = camera_bottom >= chunk_y_offset
 
-            if in_left and in_right:
-                if in_top and in_bottom:
-                    for tile, value in tiles:
-                        if int(value) != -1:
-                            self.display_surface.blit(source=self.test_tile.copy(), dest=tile)
+            tiles = self.render_chunk(chunk=chunk, chunk_offset=chunk["offset"])
+
+            if in_right and in_left and in_bottom and in_top:
+                for tile in tiles:
+                    if int(tile[1]) != -1:
+                        self.display_surface.blit(self.test_tile.copy(), (tile[0][0] - camera_offset.x, tile[0][1] - camera_offset.y))

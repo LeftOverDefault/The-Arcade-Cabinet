@@ -1,12 +1,15 @@
-from arcade.classes.camera import Camera
+from platform import python_version
+# from arcade.classes.camera import Camera
 from arcade.classes.configure import Configure
-from arcade.classes.player import Player
-from arcade.debug.debugger import Debugger
-from arcade.utils.imports import *
+# from arcade.classes.player import Player
+# from arcade.debug.debugger import Debugger
+# from arcade.utils.imports import *
+from arcade import *
 
 
 class Window:
     def __init__(self, config) -> None:
+        self.version = "0.1.0"
         self.config = Configure(config)
 
         pygame.init()
@@ -16,14 +19,16 @@ class Window:
 
 
     def on_init(self):
-        self.screen = pygame.display.set_mode((192 * 8, 108 * 8))
-        self.display_surface = pygame.Surface((192 * 2, 108 * 2))
+        self.screen = pygame.display.set_mode((192 * 6, 108 * 6))
+        self.display_surface = pygame.Surface((192 * 1.5, 108 * 1.5))
 
         self.clock = pygame.time.Clock()
         self.fps = 60
 
         self.fullscreen = False
         self.running = True
+
+        print(f"arcade {self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
 
 
     def render(self):
