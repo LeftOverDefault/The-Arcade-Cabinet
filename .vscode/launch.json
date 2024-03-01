@@ -5,10 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger",
+            "name": "Arcade Test",
             "type": "debugpy",
             "request": "launch",
             "program": "./arcade_test.py",
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "World Engine",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "./world_engine_test.py",
             "console": "integratedTerminal"
         }
     ]

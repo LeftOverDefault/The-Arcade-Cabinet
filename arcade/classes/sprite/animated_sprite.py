@@ -6,11 +6,11 @@ from arcade.utils.imports import *
 class AnimatedSprite(Sprite):
     def __init__(self, path, position, group) -> None:
         super().__init__(path, position, group)
-        self.frame_index = 0
         self.animations = import_folder(path)
         self.image = pygame.image.load(f"{path}0.png").convert_alpha()
         self.rect = self.image.get_rect(center=position)
 
+        self.frame_index = 0
         self.animation_speed = 4.5
 
     
@@ -21,11 +21,7 @@ class AnimatedSprite(Sprite):
             self.frame_index = 0
 
         self.image = self.animations[int(self.frame_index)]
-    
 
-    # def move(self, delta_time):
-        # self.rect.x -= 1
-    
 
     def update(self, delta_time):
         # self.move(delta_time=delta_time)

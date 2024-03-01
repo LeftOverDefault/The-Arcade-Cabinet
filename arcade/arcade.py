@@ -7,7 +7,7 @@ from arcade.classes.configure import Configure
 from arcade import *
 
 
-class Window:
+class Arcade:
     def __init__(self, config) -> None:
         self.version = "0.1.0"
         self.config = Configure(config)

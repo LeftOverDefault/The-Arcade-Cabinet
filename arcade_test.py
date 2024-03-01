@@ -52,11 +52,11 @@ def render_chunk(config, chunk_coordinates, chunk_x_offset, chunk_y_offset):
 
 class Main:
     def __init__(self) -> None:
-        self.window = arcade.Window(config=config)
+        self.window = arcade.Arcade(config=config)
         self.debugger = Debugger(font_path="./assets/font/font.png", config=self.window.config)
 
         self.camera = Camera(display_surface=self.window.display_surface)
-        self.player = Player(initial_position=(288 / 2, 162 / 2), path="./assets/sprite/entity/player/", group=self.camera, config=self.window.config)
+        self.player = Player(initial_position=(288 / 2, 162 / 2), path="./assets/sprite/entity/player/", group=self.camera)
 
         self.window.render = self.render
         self.window.update = self.update

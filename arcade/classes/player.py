@@ -4,7 +4,7 @@ from arcade.utils.imports import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, initial_position, path, group, config) -> None:
+    def __init__(self, initial_position, path, group) -> None:
         super().__init__(group)
         self.get_animations(path=path)
         self.image = pygame.image.load(path + "idle_down/0.png").convert_alpha()
@@ -12,8 +12,8 @@ class Player(pygame.sprite.Sprite):
 
         self.direction = pygame.math.Vector2()
         self.position = pygame.math.Vector2(x=initial_position)
-        self.speed = 0.01
-        # self.speed = 75
+        # self.speed = 0.01
+        self.speed = 75
         self.animation_speed = 4.5
 
         self.frame_index = 0
@@ -22,7 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.collision_groups = []
 
 
-        self.particle = AnimatedSprite("./assets/sprite/environment/particle/", self.rect.bottomleft, group)
+        # self.particle = AnimatedSprite("./assets/sprite/environment/particle/", self.rect.bottomleft, group)
 
 
     def get_animations(self, path) -> None:
@@ -62,11 +62,11 @@ class Player(pygame.sprite.Sprite):
 
     def move(self, delta_time) -> None:
         if self.direction.magnitude() > 0:
-            self.direction.normalize()
+            self.direction = self.direction.normalize()
 
-        self.rect.x += round(number=self.direction.x * self.speed / delta_time)
+        self.rect.x += round(number=self.direction.x * self.speed * delta_time)
         self.collide_x()
-        self.rect.y += round(number=self.direction.y * self.speed / delta_time)
+        self.rect.y += round(number=self.direction.y * self.speed * delta_time)
         self.collide_y()
 
 
@@ -91,7 +91,6 @@ class Player(pygame.sprite.Sprite):
 
 
     def get_status(self) -> None:
-        # if self.direction.x == 0 and self.direction.y == 0:
         if int(self.position.y) == self.rect.centery and int(self.position.x) == self.rect.centerx:
             if not "idle" in self.status:
                 if "run" in self.status:
