@@ -14,7 +14,7 @@ class Camera(pygame.sprite.Group):
         self.y_sorts = Layer(True, False)
 
         self.camera_delay = 25
-        self.keyboard_speed = 75
+        self.keyboard_speed = 100
         self.mouse_speed = 2
 
         self.camera_borders = {'left': 50, 'right': 50, 'top': 25, 'bottom': 25}
@@ -27,8 +27,8 @@ class Camera(pygame.sprite.Group):
 
         self.left_border = self.camera_borders['left']
         self.top_border = self.camera_borders['top']
-        self.right_border = (self.display_surface.get_size()[0] * 4) - self.camera_borders['right']
-        self.bottom_border = (self.display_surface.get_size()[1] * 4) - self.camera_borders['bottom']
+        self.right_border = (pygame.display.get_surface().get_width()) - self.camera_borders['right']
+        self.bottom_border = (pygame.display.get_surface().get_height()) - self.camera_borders['bottom']
 
     
     def keyboard_control(self, delta_time):
