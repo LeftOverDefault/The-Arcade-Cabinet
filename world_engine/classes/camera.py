@@ -24,6 +24,12 @@ class Camera(pygame.sprite.Group):
         h = (self.display_surface.get_size()[1]  - (self.camera_borders['top'] + self.camera_borders['bottom']))
         self.camera_rect = pygame.Rect(l,t,w,h)
 
+
+        self.left_border = self.camera_borders['left']
+        self.top_border = self.camera_borders['top']
+        self.right_border = (self.display_surface.get_size()[0] * 4) - self.camera_borders['right']
+        self.bottom_border = (self.display_surface.get_size()[1] * 4) - self.camera_borders['bottom']
+
     
     def keyboard_control(self, delta_time):
         keys = pygame.key.get_pressed()
@@ -43,7 +49,6 @@ class Camera(pygame.sprite.Group):
         else:
             direction.x = 0
 
-
         if direction.magnitude() > 0:
             direction = direction.normalize()
 
@@ -51,46 +56,32 @@ class Camera(pygame.sprite.Group):
 
 
     def mouse_control(self, delta_time):
+        pygame.event.set_grab(True)
         mouse = pygame.math.Vector2(pygame.mouse.get_pos())
         mouse_offset_vector = pygame.math.Vector2()
 
-        left_border = self.camera_borders['left']
-        top_border = self.camera_borders['top']
-        right_border = (self.display_surface.get_size()[0] * 4) - self.camera_borders['right']
-        bottom_border = (self.display_surface.get_size()[1] * 4) - self.camera_borders['bottom']
 
+        if self.top_border < mouse.y < self.bottom_border:
+            if mouse.x < self.left_border:
+                mouse_offset_vector.x = mouse.x - self.left_border
+            if mouse.x > self.right_border:
+                mouse_offset_vector.x = mouse.x - self.right_border
+        elif mouse.y < self.top_border:
+            if mouse.x < self.left_border:
+                mouse_offset_vector = mouse - pygame.math.Vector2(self.left_border,self.top_border)
+            if mouse.x > self.right_border:
+                mouse_offset_vector = mouse - pygame.math.Vector2(self.right_border,self.top_border)
+        elif mouse.y > self.bottom_border:
+            if mouse.x < self.left_border:
+                mouse_offset_vector = mouse - pygame.math.Vector2(self.left_border,self.bottom_border)
+            if mouse.x > self.right_border:
+                mouse_offset_vector = mouse - pygame.math.Vector2(self.right_border,self.bottom_border)
 
-        print(left_border, top_border, right_border, bottom_border)
-
-        if top_border < mouse.y < bottom_border:
-            if mouse.x < left_border:
-                mouse_offset_vector.x = mouse.x - left_border
-                # pygame.mouse.set_pos((left_border,mouse.y))
-            if mouse.x > right_border:
-                mouse_offset_vector.x = mouse.x - right_border
-                # pygame.mouse.set_pos((right_border,mouse.y))
-        elif mouse.y < top_border:
-            if mouse.x < left_border:
-                mouse_offset_vector = mouse - pygame.math.Vector2(left_border,top_border)
-                # pygame.mouse.set_pos((left_border,top_border))
-            if mouse.x > right_border:
-                mouse_offset_vector = mouse - pygame.math.Vector2(right_border,top_border)
-                # pygame.mouse.set_pos((right_border,top_border))
-        elif mouse.y > bottom_border:
-            if mouse.x < left_border:
-                mouse_offset_vector = mouse - pygame.math.Vector2(left_border,bottom_border)
-                # pygame.mouse.set_pos((left_border,bottom_border))
-            if mouse.x > right_border:
-                mouse_offset_vector = mouse - pygame.math.Vector2(right_border,bottom_border)
-                # pygame.mouse.set_pos((right_border,bottom_border))
-
-        if left_border < mouse.x < right_border:
-            if mouse.y < top_border:
-                mouse_offset_vector.y = mouse.y - top_border
-                # pygame.mouse.set_pos((mouse.x,top_border))
-            if mouse.y > bottom_border:
-                mouse_offset_vector.y = mouse.y - bottom_border
-                # pygame.mouse.set_pos((mouse.x,bottom_border))
+        if self.left_border < mouse.x < self.right_border:
+            if mouse.y < self.top_border:
+                mouse_offset_vector.y = mouse.y - self.top_border
+            if mouse.y > self.bottom_border:
+                mouse_offset_vector.y = mouse.y - self.bottom_border
 
         self.offset += mouse_offset_vector * self.mouse_speed * delta_time
 

@@ -1,7 +1,5 @@
-from arcade.classes.configure import Configure
-from arcade.classes.tile.tile import Tile
-from world_engine.classes.camera import Camera
 import world_engine
+from world_engine.classes.camera import Camera
 
 
 class Main:
@@ -12,10 +10,8 @@ class Main:
         self.engine.update = self.update
 
         self.camera = Camera(self.engine.display_surface)
-        self.tile = Tile((0, 0), self.camera, Configure({"tile_size": 16}))
-        self.tile.image.fill((255, 255, 255))
 
-    
+
     def render(self):
         self.camera.draw()
 

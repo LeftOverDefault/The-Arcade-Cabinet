@@ -19,8 +19,6 @@ class Engine:
         self.running = True
         self.fullscreen = False
 
-        pygame.event.set_grab(True)
-
 
     def render(self) -> None:
         ...
