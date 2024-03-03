@@ -6,4 +6,4 @@ class Tile(pygame.sprite.Sprite):
         super().__init__(group)
         self.config = config
         self.image = pygame.Surface((self.config.tile_size, self.config.tile_size))
-        self.rect = self.image.get_rect(center=position)
+        self.rect = self.image.get_rect(topleft=position)
