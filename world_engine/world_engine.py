@@ -38,6 +38,24 @@ class WorldEngine:
 
         self.canvas = Canvas(self.display_surface, self.camera, self.config)
 
+        self.debugger = None
+    
+
+    def get_tile_index(self):
+        if pygame.mouse.get_pressed()[0] and pygame.mouse.get_pos()[0] < self.sidenav.sidenav_width:
+            if pygame.mouse.get_pos()[1] > self.sidenav.layer_surface_height:
+                current_x = (int(int((pygame.mouse.get_pos()[0] / ((self.screen.get_width() / 198) / self.config.display_surface_multiplier))) // self.config.tile_size) * self.config.tile_size)
+                current_y = (int(int((pygame.mouse.get_pos()[1] / ((self.screen.get_height() / 108) / self.config.display_surface_multiplier)) - (self.sidenav.layer_surface_height / ((self.screen.get_height() / 108) / self.config.display_surface_multiplier))) // self.config.tile_size) * self.config.tile_size) - self.sidenav.scroll_height
+
+                if current_x >= 0 and current_y >= 0:
+                    current_tile = (current_x // self.config.tile_size, current_y // self.config.tile_size)
+                    tile_index = 0
+                    for i in range(int(self.sidenav.tiles_per_row)):
+                        for j in range(len(self.sidenav.tiles)):
+                            if i == current_tile[0] and j == current_tile[1]:
+                                tile_index = (j * self.sidenav.tiles_per_row) + i
+                                self.current_tile = tile_index
+
 
     # def get_mouse_click(self):
     #     if pygame.mouse.get_pos()[0] > (self.sidenav.surface.get_width() * ((self.screen.get_width() / 198) / self.config.display_surface_multiplier)):
@@ -91,20 +109,23 @@ class WorldEngine:
                     if event.key == pygame.K_e:
                         export_to_json(self.camera, self.config)
                 elif event.type == pygame.MOUSEWHEEL:
-                    if self.sidenav.scroll_height + (event.y) * 3 <= 0:
-                        self.sidenav.scroll_height += (event.y) * 3
-                self.canvas.get_mouse_click()
+                    if self.sidenav.scroll_height + (event.y) * 16 <= 0:
+                        self.sidenav.scroll_height += (event.y) * 16
+                self.get_tile_index()
+                self.canvas.get_mouse_click(self.current_tile)
+            # self.sidenav.get_mouse_click(self.current_tile)
 
             self.delta_time = self.clock.tick(self.fps) / 1000
             self.display_surface.fill((0, 0, 0))
 
-
-            # self.canvas.create_ghost_sprite(int(int((pygame.mouse.get_pos()[0] / ((pygame.display.get_surface().get_width() / 198) / self.config.display_surface_multiplier)) + self.camera.offset.x) // self.config.tile_size) * self.config.tile_size, int(int((pygame.mouse.get_pos()[1] / ((pygame.display.get_surface().get_height() / 108) / self.config.display_surface_multiplier)) + self.camera.offset.y) // self.config.tile_size) * self.config.tile_size)
             self.camera.draw()
             self.camera.update(self.delta_time)
+            # self.canvas.create_ghost_sprite(int(int((pygame.mouse.get_pos()[0] / ((pygame.display.get_surface().get_width() / 198) / self.config.display_surface_multiplier)) - self.camera.offset.x) // self.config.tile_size) * self.config.tile_size, int(int((pygame.mouse.get_pos()[1] / ((pygame.display.get_surface().get_height() / 108) / self.config.display_surface_multiplier)) + self.camera.offset.y) // self.config.tile_size) * self.config.tile_size)
 
             self.sidenav.draw()
             
             self.screen.blit(pygame.transform.scale(self.display_surface, self.screen.get_size()), (0, 0))
+            if self.config.debug == True:
+                self.debugger.draw()
 
             pygame.display.update()

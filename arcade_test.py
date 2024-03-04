@@ -3,8 +3,6 @@ from arcade.classes.camera import Camera
 from arcade.classes.player import Player
 from arcade.classes.world import World
 from arcade.debug.debugger import Debugger
-# from arcade.func.generate_chunk import generate_chunk
-# from arcade.func.render_chunk import render_chunk
 from arcade.utils.imports import *
 
 # "0;0": 0, "1;0": -1, "2;0": 0, "3;0": -1, "4;0": 0, "5;0": -1, "6;0": 0, "7;0": -1,
@@ -37,7 +35,7 @@ config = {
     "scale_factor": 2,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": True,
+    "debug": False,
 }
 
 
@@ -90,7 +88,8 @@ class Main:
 
         self.camera.draw(player=self.player)
         self.window.screen.blit(source=arcade.pygame.transform.scale(surface=self.window.display_surface, size=self.window.screen.get_size()), dest=(0, 0))
-        self.debugger.draw()
+        if self.window.config.debug == True:
+            self.debugger.draw()
         # self.window.screen.blit(self.mouse_img, self.mouse_pos)
 
 

@@ -30,10 +30,13 @@ class World:
         chunk_data = []
         for chunk_x_offset in range(0, self.config.chunk_size):
             for chunk_y_offset in range(0, self.config.chunk_size):
-                tile_value = self.world_data[f"{x};{y}"][f"{chunk_x_offset};{chunk_y_offset}"]
-                chunk_x_target = chunk_x_offset
-                chunk_y_target = chunk_y_offset
-                chunk_data.append(([chunk_x_target, chunk_y_target], tile_value))
+                if f"{chunk_x_offset};{chunk_y_offset}" in self.world_data[f"{x};{y}"]:
+                    tile_value = self.world_data[f"{x};{y}"][f"{chunk_x_offset};{chunk_y_offset}"]
+                    chunk_x_target = chunk_x_offset
+                    chunk_y_target = chunk_y_offset
+                    chunk_data.append(([chunk_x_target, chunk_y_target], tile_value))
+                else:
+                    pass
         return chunk_data
 
 
