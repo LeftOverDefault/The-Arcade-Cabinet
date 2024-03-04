@@ -1,3 +1,4 @@
+from world_engine.func.array_split import array_split
 from world_engine.func.import_cut_graphics import import_cut_graphics
 from world_engine.utils.imports import *
 
@@ -9,7 +10,7 @@ class Sidenav:
         self.surface = pygame.Surface((198 / self.config.display_surface_multiplier, 108 * self.config.screen_multiplier))
         self.layers = []
         tiles = list(import_cut_graphics(self.config.tileset, self.config).keys())
-        self.tiles = array_split(tiles, len(tiles) // 4)
+        self.tiles = array_split(tiles, 4)
 
         self.tile_surface = pygame.Surface((self.surface.get_width() - 2, len(self.tiles) * self.config.tile_size))
         self.layer_surface = pygame.Surface((self.surface.get_width() - 2, (self.surface.get_height() // self.config.screen_multiplier) * (2 / 3) - 1))

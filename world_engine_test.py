@@ -2,7 +2,7 @@ import world_engine
 
 
 config = {
-    "screen_multiplier": 8,
+    "screen_multiplier": 6,
     "display_surface_multiplier": 2,
     "tile_size": 16,
     "chunk_size": 8,
