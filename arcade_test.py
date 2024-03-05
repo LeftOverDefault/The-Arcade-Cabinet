@@ -35,7 +35,7 @@ config = {
     "scale_factor": 2,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": False,
+    "debug": True,
 }
 
 

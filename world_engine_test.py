@@ -5,11 +5,9 @@ class WorldEngineTest:
     def __init__(self, config) -> None:
         self.configuration = world_engine.Configure(config=config)
         self.engine = world_engine.WorldEngine(self.configuration)
-
         self.debugger = world_engine.Debugger(font_path="./assets/font/font.png", config=self.configuration)
 
         self.debugger.render = self.debug_render
-
         self.engine.debugger = self.debugger
 
 
@@ -27,7 +25,7 @@ config = {
     "display_surface_multiplier": 2,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": True,
+    "debug": False,
     "tileset": "./assets/sprite/tilesets/plains.png"
 }
 

@@ -28,7 +28,7 @@ class Arcade:
         self.fullscreen = False
         self.running = True
 
-        print(f"arcade {self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
+        print(f"Arcade v{self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
 
 
     def render(self):

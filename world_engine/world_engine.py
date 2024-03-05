@@ -4,8 +4,10 @@ from world_engine.classes.grid import Grid
 from world_engine.classes.tile.static_tile import StaticTile
 from world_engine.func.export_to_json import export_to_json
 from world_engine.func.import_cut_graphics import import_cut_graphics
+from world_engine.func.import_from_json import import_from_json
 from world_engine.interface.sidenav import Sidenav
 from world_engine.utils.imports import *
+from platform import python_version
 
 
 class WorldEngine:
@@ -21,6 +23,8 @@ class WorldEngine:
 
         self.running = True
         self.fullscreen = False
+
+        self.version = "0.1.0"
 
         self.camera = Camera(self.display_surface)
         self.grid = Grid(self.display_surface, self.config, self.camera.offset)
@@ -39,6 +43,8 @@ class WorldEngine:
         self.canvas = Canvas(self.display_surface, self.camera, self.config)
 
         self.debugger = None
+
+        print(f"World Engine {self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
     
 
     def get_tile_index(self):
@@ -108,6 +114,8 @@ class WorldEngine:
                             self.screen = pygame.display.set_mode((198 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
                     if event.key == pygame.K_e:
                         export_to_json(self.camera, self.config)
+                    if event.key == pygame.K_i:
+                        import_from_json("./world_engine/build.json", self.camera, self.tile_sheet, self.config)
                 elif event.type == pygame.MOUSEWHEEL:
                     if self.sidenav.scroll_height + (event.y) * 16 <= 0:
                         self.sidenav.scroll_height += (event.y) * 16

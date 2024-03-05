@@ -118,3 +118,5 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate(delta_time=delta_time)
         self.update_position()
+
+        # self.rect.y += 1
