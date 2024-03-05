@@ -44,8 +44,8 @@ class WorldEngine:
 
         self.debugger = None
 
-        print(f"World Engine {self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
-    
+        print(f"World Engine v{self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
+
 
     def get_tile_index(self):
         if pygame.mouse.get_pressed()[0] and pygame.mouse.get_pos()[0] < self.sidenav.sidenav_width:

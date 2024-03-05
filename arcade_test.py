@@ -63,12 +63,6 @@ class Main:
 
         self.camera.camera_delay = 25
 
-        self.tile_count = 0
-        # for chunk in chunks:
-        #     for location in chunks[chunk]:
-        #         if int(chunks[chunk][location]) != -1:
-        #             self.tile_count += 1
-
         with open("./world.json", "r") as file:
             world = json.load(file)
 
@@ -99,14 +93,13 @@ class Main:
         self.debugger.font.render(surface=self.debugger.surface, text=f"Delta Time: {round(self.window.delta_time, 4)}", location=(10, 10 + (2 * self.debugger.font.line_height)))
         self.debugger.font.render(surface=self.debugger.surface, text=f"Player Pos: x = {int(self.player.position.x)}, y = {int(self.player.position.y)}", location=(10, 10 + (3 * self.debugger.font.line_height)))
         self.debugger.font.render(surface=self.debugger.surface, text=f"Player State: {self.player.status}", location=(10, 10 + (4 * self.debugger.font.line_height)))
-        self.debugger.font.render(surface=self.debugger.surface, text=f"Tile Count: {self.tile_count}", location=(10, 10 + (5 * self.debugger.font.line_height)))
 
 
     def update(self):
         self.camera.update(delta_time=self.window.delta_time)
         # self.mouse_pos = pygame.mouse.get_pos()
 
-        pygame.event.set_grab(False)
+        pygame.event.set_grab(True)
 
 
     def event(self, event):
