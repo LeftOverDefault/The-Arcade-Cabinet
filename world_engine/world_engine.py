@@ -36,8 +36,6 @@ class WorldEngine:
 
         self.tile_sheet = import_cut_graphics(self.config.tileset, self.config)
 
-        self.current_tile = 0
-
         self.sidenav = Sidenav(self.display_surface, self.config)
 
         self.canvas = Canvas(self.display_surface, self.camera, self.config)
@@ -46,26 +44,15 @@ class WorldEngine:
 
         print(f"World Engine v{self.version} (Python {python_version()}, pygame-ce {pygame.ver})")
 
-        self.mouse_rect = pygame.Rect(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1, 1)
-
 
     def get_tile_index(self):
         if pygame.mouse.get_pressed()[0] and pygame.mouse.get_pos()[0] < self.sidenav.sidenav_width:
             if pygame.mouse.get_pos()[1] > self.sidenav.layer_surface_height:
-                # current_x = (int(int((pygame.mouse.get_pos()[0] / ((self.screen.get_width() / 198) / self.config.display_surface_multiplier))) // self.config.tile_size) * self.config.tile_size)
-                # current_y = (int(int((pygame.mouse.get_pos()[1] / ((self.screen.get_height() / 108) / self.config.display_surface_multiplier)) - (self.sidenav.layer_surface_height / ((self.screen.get_height() / 108) / self.config.display_surface_multiplier))) // self.config.tile_size) * self.config.tile_size) - self.sidenav.scroll_height
-
-                sprites = []
-
                 for sprite in self.sidenav.tile_group:
-                    sprites.append(sprite)
-
-                for sprite in sprites:
-                    # if self.mouse_rect.colliderect(sprite.rect):
-                
-                    if int(self.mouse_rect.topleft[0] // (self.config.screen_multiplier / self.config.display_surface_multiplier)) in range(sprite.rect.topleft[0], sprite.rect.topleft[0] + 16):
+                    if int(self.mouse_rect.topleft[0] // (self.config.screen_multiplier / self.config.display_surface_multiplier)) - 1 in range(sprite.rect.topleft[0], sprite.rect.topright[0]):
                         # print(self.mouse_rect.topleft[1] // (self.config.screen_multiplier / self.config.display_surface_multiplier), sprite.rect.topleft[1], sprite.rect.topleft[1] + 16)
-                        if int(self.mouse_rect.topleft[1] // (self.config.screen_multiplier / self.config.display_surface_multiplier)) in range(sprite.rect.topleft[1], sprite.rect.topleft[1] + 16):
+                        # print((self.mouse_rect.topleft[1] - self.sidenav.layer_surface_height) // (self.config.screen_multiplier / self.config.display_surface_multiplier), sprites[0].rect.topleft[1], sprites[0].rect.bottomleft[1])
+                        if (int(self.mouse_rect.topleft[1] - self.sidenav.layer_surface_height) // (self.config.screen_multiplier / self.config.display_surface_multiplier)) - 1 - self.sidenav.scroll_height in range(sprite.rect.topleft[1], sprite.rect.bottomleft[1]):
                             self.current_tile = sprite.tile_index
                     # if sprite.rect.colliderect(self.mouse_rect):
                 # if current_x >= 0 and current_y >= 0:
@@ -116,8 +103,6 @@ class WorldEngine:
 
     def run(self):
         while self.running == True:
-            self.mouse_rect.x = pygame.mouse.get_pos()[0]
-            self.mouse_rect.y = pygame.mouse.get_pos()[1]
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -134,10 +119,10 @@ class WorldEngine:
                     if event.key == pygame.K_i:
                         import_from_json("./world_engine/build.json", self.camera, self.tile_sheet, self.config)
                 elif event.type == pygame.MOUSEWHEEL:
-                    if len(self.sidenav.tiles) * -self.config.tile_size <= self.sidenav.scroll_height + (event.y) * 3 <= 0:
-                        self.sidenav.scroll_height += (event.y) * 3
-                self.get_tile_index()
-                self.canvas.get_mouse_click(self.current_tile)
+                    if (len(self.sidenav.tiles) * -self.config.tile_size) + (self.config.tile_size * self.config.screen_multiplier) <= self.sidenav.scroll_height + (event.y) * 5 <= 0:
+                        self.sidenav.scroll_height += (event.y) * 5
+                self.sidenav.get_tile_index()
+                self.canvas.get_mouse_click(self.sidenav.current_tile)
             # self.sidenav.get_mouse_click(self.current_tile)
 
             self.delta_time = self.clock.tick(self.fps) / 1000

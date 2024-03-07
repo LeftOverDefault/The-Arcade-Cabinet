@@ -61,7 +61,7 @@ class Main:
         self.window.event = self.event
         self.debugger.render = self.debug_render
 
-        self.camera.camera_delay = 25
+        self.camera.camera_delay = 1
 
         with open("./world.json", "r") as file:
             world = json.load(file)

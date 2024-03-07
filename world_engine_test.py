@@ -26,7 +26,12 @@ config = {
     "tile_size": 16,
     "chunk_size": 8,
     "debug": False,
-    "tileset": "./assets/sprite/tilesets/plains.png"
+    "tileset": "./assets/sprite/tilesets/plains.png",
+    "font": "./assets/font/font.png",
+    "layers": [
+        "Layer 1",
+        "Layer 2"
+    ]
 }
 
 
