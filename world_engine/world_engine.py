@@ -1,8 +1,6 @@
-from arcade.classes.tile.tile import Tile
 from world_engine.classes.camera import Camera
 from world_engine.classes.configure import Configure
 from world_engine.debug.debugger import Debugger
-from world_engine.classes.canvas import Canvas
 from world_engine.utils.imports import *
 
 
@@ -29,8 +27,6 @@ class WorldEngine:
         self.debugger = Debugger(self.config.font, self.config)
 
         self.camera = Camera(self.display_surface, self.config)
-        Tile((0, 0), self.camera, self.config)
-        # self.canvas = Canvas(self.display_surface, self.camera, self.config)
 
     
     def run(self) -> None:
@@ -47,9 +43,10 @@ class WorldEngine:
                             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                         else:
                             self.screen = pygame.display.set_mode((198 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
-                # self.canvas.get_mouse_click("Layer_1", 0)
 
             self.delta_time = self.clock.tick(self.fps) / 1000
+
+            self.display_surface.fill((0, 0, 0))
 
 
             self.camera.draw()

@@ -1,4 +1,3 @@
-# from world_engine.classes.tile.static_tile import StaticTile
 from world_engine.func.import_cut_graphics import import_cut_graphics
 from world_engine.utils.imports import *
 
