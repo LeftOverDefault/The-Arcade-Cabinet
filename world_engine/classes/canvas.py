@@ -27,7 +27,7 @@ class Canvas:
             self.display_surface.blit(tile, (current_x, current_y))
 
 
-    def get_mouse_click(self, tile_index):
+    def get_mouse_click(self, tile_layer, tile_index):
         self.tile_index = tile_index
         if pygame.mouse.get_pos()[0] > self.sidenav_width:
             current_x = int(int((pygame.mouse.get_pos()[0] / ((pygame.display.get_surface().get_width() / 198) / self.config.display_surface_multiplier)) + self.camera.offset.x) // self.config.tile_size) * self.config.tile_size
@@ -39,9 +39,7 @@ class Canvas:
 
                 if tile_pos not in self.tile_positions:
                     self.tile_positions.append(tile_pos)
-                    StaticTile(tile_sprite, self.tile_index, (tile_pos[0] * self.config.tile_size, tile_pos[1] * self.config.tile_size), self.camera, self.config)
-                else:
-                    pass
+                    StaticTile(tile_sprite, self.tile_index, (tile_pos[0] * self.config.tile_size, tile_pos[1] * self.config.tile_size), tile_layer, self.camera, self.config)
             
             elif pygame.mouse.get_pressed()[2]:
                 for sprite in self.camera.sprites():

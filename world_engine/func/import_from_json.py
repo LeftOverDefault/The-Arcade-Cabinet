@@ -3,6 +3,7 @@ from world_engine.utils.imports import *
 
 
 def import_from_json(world, camera: pygame.sprite.Group, canvas, tileset, config):
+    current_layer = "Layer_1"
     with open(world, "r") as world_file:
         world = json.load(world_file)
     for chunk in world.keys():
@@ -23,5 +24,5 @@ def import_from_json(world, camera: pygame.sprite.Group, canvas, tileset, config
                 canvas.tile_positions.remove([tile_x, tile_y])
             
 
-            StaticTile(list(tileset.keys())[int(tile_index)], tile_index, (tile_x * config.tile_size, tile_y * config.tile_size), camera, config)
+            StaticTile(list(tileset.keys())[int(tile_index)], tile_index, (tile_x * config.tile_size, tile_y * config.tile_size), current_layer, camera, config)
             canvas.tile_positions.append([tile_x, tile_y])

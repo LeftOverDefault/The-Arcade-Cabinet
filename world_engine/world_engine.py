@@ -1,6 +1,5 @@
 from world_engine.classes.camera import Camera
 from world_engine.classes.canvas import Canvas
-from world_engine.classes.grid import Grid
 from world_engine.func.export_to_json import export_to_json
 from world_engine.func.import_cut_graphics import import_cut_graphics
 from world_engine.func.import_from_json import import_from_json
@@ -11,8 +10,9 @@ from platform import python_version
 
 class WorldEngine:
     def __init__(self, config) -> None:
+        self.version = "0.1.0"
         pygame.init()
-        pygame.display.set_caption("World Engine v0.1.0")
+        pygame.display.set_caption(f"World Engine v{self.version}")
 
         self.config = config
         self.screen = pygame.display.set_mode((198 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
@@ -23,10 +23,9 @@ class WorldEngine:
         self.running = True
         self.fullscreen = False
 
-        self.version = "0.1.0"
+        self.camera = Camera(self.display_surface, self.config)
 
-        self.camera = Camera(self.display_surface)
-        self.grid = Grid(self.display_surface, self.config, self.camera.offset)
+        self.scroll_speed_multiplier = 8
 
         # self.cursor_img = pygame.image.load("./assets/sprite/mouse_img.png").convert_alpha()
         cursor_image = pygame.image.load("./assets/sprite/mouse.png").convert_alpha()
@@ -67,21 +66,15 @@ class WorldEngine:
                         else:
                             self.screen = pygame.display.set_mode((198 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
                     if event.key == pygame.K_e:
-                        export_to_json(self.camera, self.config)
+                        for layer in self.config.layers:
+                            export_to_json(layer, self.camera, self.config)
                     if event.key == pygame.K_i:
                         import_from_json("./world_engine/build.json", self.camera, self.canvas, self.tile_sheet, self.config)
-                        # self.canvas.tile_positions = []
-                        # for sprite in self.camera.sprites():
-                            # position = [sprite.rect.x // self.config.tile_size, sprite.rect.y // self.config.tile_size]
-                            # if position not in self.canvas.tile_positions:
-                                # self.canvas.tile_positions.append(position)
-                            # else:
-                                # pass
                 elif event.type == pygame.MOUSEWHEEL:
-                    if (len(self.sidenav.tiles) * -self.config.tile_size) + (self.config.tile_size * self.config.screen_multiplier) <= self.sidenav.scroll_height + (event.y) * 5 <= 0:
-                        self.sidenav.scroll_height += (event.y) * 5
+                    if (len(self.sidenav.tiles) * -self.config.tile_size) + (self.config.tile_size * self.config.screen_multiplier) <= self.sidenav.scroll_height + (event.y) * self.scroll_speed_multiplier <= 0:
+                        self.sidenav.scroll_height += (event.y) * self.scroll_speed_multiplier
                 self.sidenav.get_tile_index()
-                self.canvas.get_mouse_click(self.sidenav.current_tile)
+                self.canvas.get_mouse_click(self.sidenav.current_layer, self.sidenav.current_tile)
             # self.sidenav.get_mouse_click(self.current_tile)
 
             self.delta_time = self.clock.tick(self.fps) / 1000

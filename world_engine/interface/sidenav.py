@@ -22,6 +22,7 @@ class Sidenav:
         self.scroll_height = 0
 
         self.current_tile = 0
+        self.current_layer = "Layer_0"
 
         self.sidenav_width = (pygame.display.get_surface().get_width() / self.config.screen_multiplier) * (3 / 2)
         self.layer_surface_height = (self.surface.get_height() // self.config.screen_multiplier) * (self.config.display_surface_multiplier)
@@ -29,11 +30,10 @@ class Sidenav:
         for y, tile_group in enumerate(self.tiles):
             for x, tile in enumerate(tile_group):
                 tile_index = (y * self.tiles_per_row) + x
-                StaticTile(tile, list(self.original_tiles.values())[tile_index], (x * (self.config.tile_size + 1), (y * (self.config.tile_size + 1))), self.tile_group, self.config)
+                StaticTile(tile, list(self.original_tiles.values())[tile_index], (x * (self.config.tile_size + 1), (y * (self.config.tile_size + 1))), self.current_layer, self.tile_group, self.config)
 
         self.font = Font(self.config.font, 1, (255, 255, 255))
 
-    
 
     def get_tile_index(self):
         self.mouse_rect.x = pygame.mouse.get_pos()[0]
@@ -44,6 +44,15 @@ class Sidenav:
                     if int(self.mouse_rect.topleft[0] // (self.config.screen_multiplier / self.config.display_surface_multiplier)) - 1 in range(sprite.rect.topleft[0], sprite.rect.topright[0]):
                         if (int(self.mouse_rect.topleft[1] - self.layer_surface_height) // (self.config.screen_multiplier / self.config.display_surface_multiplier)) - 1 - self.scroll_height in range(sprite.rect.topleft[1], sprite.rect.bottomleft[1]):
                             self.current_tile = sprite.tile_index
+            
+            elif pygame.mouse.get_pos()[1] < self.layer_surface_height:
+                for layer_number, layer in enumerate(self.layers):
+                    if self.mouse_rect.topleft[1] // (self.config.screen_multiplier / self.config.display_surface_multiplier) in range(self.font.line_height * layer_number, self.font.line_height * (layer_number + 1)):
+                        self.current_layer = layer
+
+
+    # def get_current_layer(self):
+        # if pygame.mouse.get_pressed()[0] and pygame.mouse.get_pos()[0] < self.sidenav_width:
 
 
     def draw(self) -> None:

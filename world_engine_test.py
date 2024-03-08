@@ -25,12 +25,13 @@ config = {
     "display_surface_multiplier": 2,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": False,
+    "debug": True,
     "tileset": "./assets/sprite/tilesets/plains.png",
     "font": "./assets/font/font.png",
+    "world_name": "overworld",
     "layers": [
-        "Layer 1",
-        "Layer 2"
+        "Layer_1",
+        "Layer_2"
     ]
 }
 

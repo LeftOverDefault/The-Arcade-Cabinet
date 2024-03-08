@@ -3,9 +3,11 @@ from arcade.utils.imports import *
 
 
 class Camera(pygame.sprite.Group):
-    def __init__(self, display_surface) -> None:
+    def __init__(self, display_surface, config) -> None:
         super().__init__()
         self.display_surface = display_surface
+
+        self.config = config
 
         self.offset = pygame.Vector2()
         self.half_width = self.display_surface.get_width() // 2
@@ -29,6 +31,10 @@ class Camera(pygame.sprite.Group):
         self.top_border = self.camera_borders['top']
         self.right_border = (pygame.display.get_surface().get_width()) - self.camera_borders['right']
         self.bottom_border = (pygame.display.get_surface().get_height()) - self.camera_borders['bottom']
+
+        self.layers = {}
+        for layer in self.config.layers:
+            self.layers[layer] = {}
 
     
     def keyboard_control(self, delta_time):
@@ -90,6 +96,7 @@ class Camera(pygame.sprite.Group):
         for sprite in self:
             offset_position = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_position)
+            # self.layers[self.current_layer]
 
 
     def update(self, delta_time):
