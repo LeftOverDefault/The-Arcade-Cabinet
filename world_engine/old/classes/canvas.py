@@ -1,3 +1,4 @@
+# from world_engine.classes.tile.static_tile import StaticTile
 from world_engine.func.import_cut_graphics import import_cut_graphics
 from world_engine.utils.imports import *
 
@@ -13,6 +14,17 @@ class Canvas:
         self.sidenav_width = (pygame.display.get_surface().get_width() / self.config.screen_multiplier) * (3 / 2)
 
         self.tile_positions = []
+    
+
+    def create_ghost_sprite(self, current_x, current_y):
+        position = (0, 0)
+        for sprite in self.camera.sprites():
+            position = (sprite.rect.topleft[0] // self.config.tile_size, sprite.rect.topleft[1] // self.config.tile_size)
+        
+        if current_x != position[0] and current_y != position[1]:
+            tile = self.tileset[self.tile_index]
+            tile.set_alpha(255 * (2 / 3))
+            self.display_surface.blit(tile, (current_x, current_y))
 
 
     def get_mouse_click(self, tile_layer, tile_index):

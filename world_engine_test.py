@@ -1,23 +1,20 @@
 import world_engine
 
 
-class WorldEngineTest:
-    def __init__(self, config) -> None:
-        self.configuration = world_engine.Configure(config=config)
-        self.engine = world_engine.WorldEngine(self.configuration)
-        self.debugger = world_engine.Debugger(font_path="./assets/font/font.png", config=self.configuration)
+# class WorldEngineTest:
+#     def __init__(self, config) -> None:
+#         self.configuration = world_engine.Configure(config=config)
+#         self.engine = world_engine.WorldEngine(self.configuration)
+#         self.debugger = world_engine.Debugger(font_path="./assets/font/font.png", config=self.configuration)
 
-        self.debugger.render = self.debug_render
-        self.engine.debugger = self.debugger
-
-
-    def debug_render(self):
-        self.debugger.font.render(surface=self.debugger.surface, text=f"Debug Menu:", location=(10, 10 + (0 * self.debugger.font.line_height)))
-        self.debugger.font.render(surface=self.debugger.surface, text=f"FPS: {round(number=self.engine.clock.get_fps())}", location=(10, 10 + (1 * self.debugger.font.line_height)))
+#         self.debugger.render = self.debug_render
+#         self.engine.debugger = self.debugger
 
 
-    def run(self):
-        self.engine.run()
+
+
+#     def run(self):
+#         self.engine.run()
 
 
 config = {
@@ -26,7 +23,9 @@ config = {
     "tile_size": 16,
     "chunk_size": 8,
     "debug": True,
-    "tileset": "./assets/sprite/tilesets/plains.png",
+    "tilesets": [
+        "./assets/sprite/tilesets/plains.png"
+    ],
     "font": "./assets/font/font.png",
     "world_name": "overworld",
     "layers": [
@@ -37,5 +36,12 @@ config = {
 
 
 if __name__ == "__main__":
-    world_engine_test = WorldEngineTest(config)
-    world_engine_test.run()
+    engine = world_engine.WorldEngine(config=config)
+
+    def debug_render(self):
+        self.font.render(surface=self.surface, text=f"Debug Menu:", location=(10, 10 + (0 * self.font.line_height)))
+        self.font.render(surface=self.surface, text=f"FPS: {round(number=engine.clock.get_fps())}", location=(10, 10 + (1 * self.font.line_height)))
+        self.font.render(surface=self.surface, text=f"Delta Time: {round(number=engine.delta_time, ndigits=4)}", location=(10, 10 + (2 * self.font.line_height)))
+
+    engine.debugger.render = debug_render
+    engine.run()

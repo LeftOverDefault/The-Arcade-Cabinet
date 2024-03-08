@@ -1,6 +1,5 @@
-from typing import Iterable
-from pygame.sprite import AbstractGroup
-from world_engine.utils.imports import *
+from arcade.classes.layer import Layer
+from arcade.utils.imports import *
 
 
 class Camera(pygame.sprite.Group):
@@ -23,8 +22,8 @@ class Camera(pygame.sprite.Group):
         self.camera_borders = {'left': 50, 'right': 50, 'top': 25, 'bottom': 25}
         l = self.camera_borders['left']
         t = self.camera_borders['top']
-        w = (self.display_surface.get_size()[0] - (self.camera_borders['left'] + self.camera_borders['right']))
-        h = (self.display_surface.get_size()[1] - (self.camera_borders['top'] + self.camera_borders['bottom']))
+        w = (self.display_surface.get_size()[0]  - (self.camera_borders['left'] + self.camera_borders['right']))
+        h = (self.display_surface.get_size()[1]  - (self.camera_borders['top'] + self.camera_borders['bottom']))
         self.camera_rect = pygame.Rect(l,t,w,h)
 
 
@@ -97,6 +96,7 @@ class Camera(pygame.sprite.Group):
         for sprite in self:
             offset_position = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset_position)
+            # self.layers[self.current_layer]
 
 
     def update(self, delta_time):

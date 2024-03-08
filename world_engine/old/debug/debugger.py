@@ -1,5 +1,6 @@
-from arcade.utils.imports import *
-from arcade.font.font import Font
+from world_engine.utils.imports import *
+from world_engine.font.font import Font
+
 
 class Debugger:
     def __init__(self, font_path, config) -> None:
@@ -18,6 +19,6 @@ class Debugger:
     def draw(self) -> None:
         self.surface.fill(color=(100, 100, 100, 150))
 
-        self.render(self)
+        self.render()
 
         self.screen.blit(source=self.surface, dest=[self.screen.get_rect().bottomright[0] - self.surface.get_width(), self.screen.get_rect().bottomright[1] - self.surface.get_height()])
