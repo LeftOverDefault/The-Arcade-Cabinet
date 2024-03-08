@@ -2,8 +2,8 @@ from world_engine.utils.imports import *
 
 
 def export_to_json(layer_name, group: pygame.sprite.Group, config):
-    layers = {}
     layers[layer_name] = []
+    layers = {}
     for sprite in group.sprites():
         if sprite.tile_layer == layer_name:
             layers[layer_name].append(sprite)

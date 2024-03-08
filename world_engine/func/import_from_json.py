@@ -3,7 +3,6 @@ from world_engine.utils.imports import *
 
 
 def import_from_json(world, camera: pygame.sprite.Group, canvas, tileset, config):
-    current_layer = "Layer_1"
     with open(world, "r") as world_file:
         world = json.load(world_file)
     for chunk in world.keys():
