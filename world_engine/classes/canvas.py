@@ -35,16 +35,16 @@ class Canvas:
 
             if pygame.mouse.get_pressed()[0]:
                 tile_sprite = self.tileset[int(self.tile_index)]
-                tile_pos = (current_x // self.config.tile_size, current_y // self.config.tile_size)
+                tile_pos = [current_x // self.config.tile_size, current_y // self.config.tile_size]
 
                 if tile_pos not in self.tile_positions:
-                    StaticTile(tile_sprite, self.tile_index, (tile_pos[0] * self.config.tile_size, tile_pos[1] * self.config.tile_size), self.camera, self.config)
                     self.tile_positions.append(tile_pos)
+                    StaticTile(tile_sprite, self.tile_index, (tile_pos[0] * self.config.tile_size, tile_pos[1] * self.config.tile_size), self.camera, self.config)
                 else:
                     pass
             
             elif pygame.mouse.get_pressed()[2]:
                 for sprite in self.camera.sprites():
                     if sprite.rect.x == current_x and sprite.rect.y == current_y:
-                        self.tile_positions.remove((current_x // self.config.tile_size, current_y // self.config.tile_size))
+                        self.tile_positions.remove([current_x // self.config.tile_size, current_y // self.config.tile_size])
                         self.camera.remove(sprite)

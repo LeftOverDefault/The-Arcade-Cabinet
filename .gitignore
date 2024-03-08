@@ -1,11 +1,12 @@
 arcade/__pycache__
 arcade/classes/__pycache__
 arcade/classes/tile/__pycache__
+arcade/classes/sprite/__pycache__
+arcade/debug/__pycache__
+arcade/font/__pycache__
 arcade/func/__pycache__
 arcade/interface/__pycache__
 arcade/utils/__pycache__
-arcade/font/__pycache__
-arcade/debug/__pycache__
 
 world_engine/__pycache__
 world_engine/classes/__pycache__
