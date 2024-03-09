@@ -17,8 +17,8 @@ class Camera(pygame.sprite.Group):
 
 
     def center_target_camera(self, target):
-        self.offset.x += (target.rect.centerx - self.half_width - self.offset.x) / self.camera_delay
-        self.offset.y += (target.rect.centery - self.half_height - self.offset.y) / self.camera_delay
+        self.offset.x += round((target.rect.centerx - self.half_width - self.offset.x) / self.camera_delay, 4)
+        self.offset.y += round((target.rect.centery - self.half_height - self.offset.y) / self.camera_delay, 4)
 
 
     def add_group(self, group, player) -> None:

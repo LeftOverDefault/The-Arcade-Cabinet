@@ -61,7 +61,7 @@ class Main:
         self.window.event = self.event
         self.debugger.render = self.debug_render
 
-        self.camera.camera_delay = 1
+        self.camera.camera_delay = 25
 
         with open("./world.json", "r") as file:
             world = json.load(file)
@@ -70,6 +70,7 @@ class Main:
         self.world.camer = self.camera
         self.world.player = self.player
 
+        pygame.event.set_grab(False)
         # pygame.mouse.set_visible(False)
         # self.mouse_pos = pygame.Vector2()
         # self.mouse_img = pygame.transform.scale_by(pygame.image.load("./assets/sprite/mouse.png").convert_alpha(), 2)
@@ -99,7 +100,6 @@ class Main:
         self.camera.update(delta_time=self.window.delta_time)
         # self.mouse_pos = pygame.mouse.get_pos()
 
-        pygame.event.set_grab(True)
 
 
     def event(self, event):

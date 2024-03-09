@@ -16,6 +16,7 @@ class WorldEngine:
         self.config = Configure(config)
 
         self.on_init()
+        self.set_cursor()
 
 
     def on_init(self) -> None:
@@ -32,6 +33,12 @@ class WorldEngine:
         self.canvas = Canvas(self.display_surface, self.camera, self.config)
         self.debugger = Debugger(self.config.font, self.config)
         self.sidenav = Sidenav(self.display_surface, self.config)
+
+    
+    def set_cursor(self):
+        cursor_image = pygame.image.load("./assets/sprite/mouse.png").convert_alpha()
+        cursor = pygame.Cursor((0, 0), cursor_image)
+        pygame.mouse.set_cursor(cursor)
 
     
     def run(self) -> None:
