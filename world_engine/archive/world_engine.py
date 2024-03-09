@@ -1,11 +1,12 @@
+from platform import python_version
+
 from world_engine.classes.camera import Camera
 from world_engine.classes.canvas import Canvas
-from world_engine.func.json_export import export_to_json
 from world_engine.func.import_cut_graphics import import_cut_graphics
 from world_engine.func.import_from_json import import_from_json
+from world_engine.func.json_export import export_to_json
 from world_engine.interface.sidenav import Sidenav
 from world_engine.utils.imports import *
-from platform import python_version
 
 
 class WorldEngine:

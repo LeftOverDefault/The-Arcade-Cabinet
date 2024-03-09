@@ -42,3 +42,15 @@ class Font:
                 x_offset += self.characters[char].get_width() + self.spacing
             else:
                 x_offset += self.space_width + self.spacing
+    
+
+    def return_image(self, text):
+        x_offset = 0
+        text_images = {}
+        for char in text:
+            if char != " ":
+                text_images[self.characters[char]] = x_offset
+                x_offset += self.characters[char].get_width() + self.spacing
+            else:
+                x_offset += self.space_width + self.spacing
+        return text_images
