@@ -67,6 +67,8 @@ class WorldEngine:
             self.camera.draw()
             self.camera.update(self.delta_time)
 
+            pygame.draw.circle(self.display_surface, (200, 200, 200), -self.camera.offset, 4)
+
             self.sidenav.draw()
 
             self.screen.blit(pygame.transform.scale(self.display_surface, self.screen.get_size()), (0, 0))

@@ -14,13 +14,13 @@ class Sidenav:
         self.tile_group = pygame.sprite.Group()
         self.layer_group = pygame.sprite.Group()
 
-        self.font = Font(self.config.font, 1, (255, 255, 255))
+        self.font = Font(self.config.font, self.config.font_size, (255, 255, 255), config=self.config)
 
         self.scroll_height = 0
         self.current_tile = 0
         self.current_layer = 0
 
-        self.tiles_per_row = 4
+        self.tiles_per_row = 5
         self.tiles = list(array_split(import_cut_graphics(self.config.tilesets[0], self.config), self.tiles_per_row)) # list(self.original_tiles.keys()), len(list(self.original_tiles.keys())) // self.tiles_per_row))
 
         self.sidenav_surface = pygame.Surface((198 / 2, self.display_surface.get_height()))
@@ -44,7 +44,9 @@ class Sidenav:
     def draw_layers(self) -> None:
         for layer_index, layer in enumerate(self.config.layers):
             images = self.font.return_image(layer)
-            for image, x_position in images.items():
+            for image_array in images:
+                image = image_array[0]
+                x_position = image_array[1]
                 LetterTile(image, layer_index, (x_position + self.font.space_width, (layer_index * self.font.line_height) + self.font.space_width), self.layer_group)
 
 
@@ -55,9 +57,9 @@ class Sidenav:
 
 
     def get_current_tile(self) -> None:
-        self.tile_mouse_rect.x = pygame.mouse.get_pos()[0] // (self.config.screen_multiplier // self.config.display_surface_multiplier)
-        self.tile_mouse_rect.y = (pygame.mouse.get_pos()[1] // (self.config.screen_multiplier // self.config.display_surface_multiplier)) - (self.scroll_height + self.layer_surface.get_height())
-        if pygame.mouse.get_pos()[1] // (self.config.screen_multiplier // self.config.display_surface_multiplier) > self.display_surface.get_height() * (1 / 3):
+        self.tile_mouse_rect.x = pygame.mouse.get_pos()[0] / (self.config.screen_multiplier / self.config.display_surface_multiplier)
+        self.tile_mouse_rect.y = (pygame.mouse.get_pos()[1] / (self.config.screen_multiplier / self.config.display_surface_multiplier)) - (self.scroll_height + self.layer_surface.get_height())
+        if pygame.mouse.get_pos()[1] // (self.config.screen_multiplier / self.config.display_surface_multiplier) > self.display_surface.get_height() * (1 / 3):
             for tile in self.tile_group:
                 if self.tile_mouse_rect.colliderect(tile.rect):
                     if pygame.mouse.get_pressed()[0]:

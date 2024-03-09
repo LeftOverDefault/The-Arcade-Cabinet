@@ -1,7 +1,4 @@
-from arcade.classes.camera import Camera
 from arcade.func.import_cut_graphics import import_cut_graphics
-# from arcade.func.generate_chunk import generate_chunk
-# from arcade.func.render_chunk import render_chunk
 from arcade.utils.imports import *
 
 
