@@ -1,4 +1,4 @@
-from arcade.archive.classes.layer import Layer
+from arcade.classes.layer import Layer
 from arcade.utils.imports import *
 
 
