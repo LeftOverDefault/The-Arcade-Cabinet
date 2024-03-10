@@ -1,33 +1,27 @@
-from arcade.classes.sprite.animated_sprite import AnimatedSprite
 from arcade.func.import_folder import import_folder
 from arcade.utils.imports import *
 
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, initial_position, path, group) -> None:
+    def __init__(self, path, initial_position, group) -> None:
         super().__init__(group)
-        self.get_animations(path=path)
         self.image = pygame.image.load(path + "idle_down/0.png").convert_alpha()
         self.rect = self.image.get_rect(center=initial_position)
 
-        self.direction = pygame.math.Vector2()
-        self.position = pygame.math.Vector2(x=initial_position)
-        # self.speed = 0.01
-        self.speed = 75
-        self.animation_speed = 4.5
+        self.direction = pygame.Vector2()
+        self.position = pygame.Vector2(initial_position)
 
+        self.animation_speed = 4.5
         self.frame_index = 0
+        self.speed = 75
         self.status = "idle_down"
 
         self.collision_groups = []
 
-
-        # self.particle = AnimatedSprite("./assets/sprite/environment/particle/", self.rect.bottomleft, group)
+        self.get_animations(path)
 
 
     def get_animations(self, path) -> None:
-        path = path
-
         self.animations = {
             "idle_down": [], "idle_left": [], "idle_right": [], "idle_up": [],
             "run_down": [], "run_left": [], "run_right": [], "run_up": []
@@ -36,9 +30,26 @@ class Player(pygame.sprite.Sprite):
         for animation in self.animations.keys():
             full_path = path + animation + "/"
             self.animations[animation] = import_folder(full_path)
+    
+
+    def get_status(self) -> None:
+        if int(self.position.y) == self.rect.centery and int(self.position.x) == self.rect.centerx:
+            if not "idle" in self.status:
+                if "run" in self.status:
+                    self.status = self.status.replace("run_", "idle_")
 
 
-    def input(self) -> None:
+    def animate(self, delta_time) -> None:
+        animation = self.animations[self.status]
+        self.frame_index += self.animation_speed * delta_time
+
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+
+        self.image = animation[int(self.frame_index)]
+
+
+    def input(self):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_w]:
@@ -58,9 +69,9 @@ class Player(pygame.sprite.Sprite):
             self.status = "run_right"
         else:
             self.direction.x = 0
-
-
-    def move(self, delta_time) -> None:
+        
+    
+    def move(self, delta_time):
         if self.direction.magnitude() > 0:
             self.direction = self.direction.normalize()
 
@@ -90,23 +101,6 @@ class Player(pygame.sprite.Sprite):
                         self.rect.top = sprite.rect.bottom
 
 
-    def get_status(self) -> None:
-        if int(self.position.y) == self.rect.centery and int(self.position.x) == self.rect.centerx:
-            if not "idle" in self.status:
-                if "run" in self.status:
-                    self.status = self.status.replace("run_", "idle_")
-
-
-    def animate(self, delta_time) -> None:
-        animation = self.animations[self.status]
-        self.frame_index += self.animation_speed * delta_time
-
-        if self.frame_index >= len(animation):
-            self.frame_index = 0
-
-        self.image = animation[int(self.frame_index)]
-    
-
     def update_position(self) -> None:
         self.position.x = self.rect.centerx
         self.position.y = self.rect.centery
@@ -118,5 +112,3 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate(delta_time=delta_time)
         self.update_position()
-
-        # self.rect.y += 1

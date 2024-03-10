@@ -7,7 +7,11 @@ def json_export(layers, config):
         tile_positions = layer.tile_positions
         layer_dict = {
             "layer_name": layer_name,
-            "layer_index": layer_index
+            "layer_index": layer_index,
+            "layer_tileset": "plains",
+            "y-sorted": False,
+            "collidable": False,
+            "layer_chunks": {}
         }
 
         for sprite in layer:
@@ -17,15 +21,15 @@ def json_export(layers, config):
             sprite_chunk = f"{sprite_position[0] // config.chunk_size};{sprite_position[1] // config.chunk_size}"
             sprite_coordinate = f"{sprite.rect.topleft[0] // config.tile_size};{sprite.rect.topleft[1] // config.tile_size}"
 
-            if sprite_chunk not in layer_dict.keys():
-                layer_dict[sprite_chunk] = {}
+            if sprite_chunk not in layer_dict["layer_chunks"].keys():
+                layer_dict["layer_chunks"][sprite_chunk] = {}
 
                 sprite_coordinate = f"{sprite_position[0] % 8};{sprite_position[1] % 8}"
-                layer_dict[sprite_chunk][sprite_coordinate] = sprite_index
+                layer_dict["layer_chunks"][sprite_chunk][sprite_coordinate] = sprite_index
 
             else:
                 sprite_coordinate = f"{sprite_position[0] % 8};{sprite_position[1] % 8}"
-                layer_dict[sprite_chunk][sprite_coordinate] = sprite_index
+                layer_dict["layer_chunks"][sprite_chunk][sprite_coordinate] = sprite_index
 
         try:
             with open(f"{config.build_directory}{config.world_name}_{layer_name}.json", "x") as layer_file:

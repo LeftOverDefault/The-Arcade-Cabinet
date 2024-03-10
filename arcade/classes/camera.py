@@ -1,4 +1,4 @@
-from arcade.classes.layer import Layer
+from arcade.archive.classes.layer import Layer
 from arcade.utils.imports import *
 
 
@@ -8,12 +8,13 @@ class Camera(pygame.sprite.Group):
         self.display_surface = display_surface
 
         self.offset = pygame.Vector2()
+
         self.half_width = self.display_surface.get_width() // 2
         self.half_height = self.display_surface.get_height() // 2
         
-        self.y_sorts = Layer(True, False)
-
         self.camera_delay = 25
+
+        self.y_sort_layer = Layer(True, False)
 
 
     def center_target_camera(self, target):
@@ -22,12 +23,12 @@ class Camera(pygame.sprite.Group):
 
 
     def add_group(self, group, player) -> None:
-        if group.collidable:
+        if group.collidable == True:
             player.collision_groups.append(group)
 
         if group.y_sorted == True:
             for sprite in group.sprites():
-                self.y_sorts.add(sprite)
+                self.y_sort_layer.add(sprite)
         else:
             for sprite in group:
                 self.add(sprite)
@@ -40,7 +41,7 @@ class Camera(pygame.sprite.Group):
             offset = sprite.rect.topleft - self.offset
             self.display_surface.blit(sprite.image, offset)
 
-        for sprite in sorted(self.y_sorts.sprites(), key=lambda sprite: sprite.rect.centery):
+        for sprite in sorted(self.y_sort_layer.sprites(), key=lambda sprite: sprite.rect.centery):
             offset_pos = sprite.rect.topleft - self.offset
             self.display_surface.blit(source=sprite.image, dest=offset_pos)
 
@@ -49,5 +50,5 @@ class Camera(pygame.sprite.Group):
         for sprite in self:
             sprite.update(delta_time)
 
-        for sprite in self.y_sorts.sprites():
+        for sprite in self.y_sort_layer.sprites():
             sprite.update(delta_time)

@@ -15,7 +15,8 @@ config = {
     "font_size": 1,
     "world_name": "overworld",
     "layers": [
-        "Layer 1"
+        "Layer_1",
+        "Layer_2"
     ],
     "build_directory": "./build/"
 }
