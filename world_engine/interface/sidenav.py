@@ -25,7 +25,7 @@ class Sidenav:
 
         self.sidenav_surface = pygame.Surface((198 / 2, self.display_surface.get_height()))
         self.layer_surface = pygame.Surface((198 / 2, self.display_surface.get_height() * (1 / 3)))
-        self.tile_surface = pygame.Surface((198 / 2, (len(self.tiles) + 3) * self.config.tile_size))
+        self.tile_surface = pygame.Surface((198 / 2, (len(self.tiles) + self.tiles_per_row) * self.config.tile_size))
 
         self.draw_tiles()
         self.draw_layers()
@@ -52,7 +52,7 @@ class Sidenav:
 
     def scroll(self, event) -> None:
         if event.type == pygame.MOUSEWHEEL:
-            if ((len(self.tiles) + 3) * -self.config.tile_size) + (self.display_surface.get_height() * (2 / 3)) <= self.scroll_height + (event.y * 8) <= 0:
+            if ((len(self.tiles) + self.tiles_per_row) * -self.config.tile_size) + (self.display_surface.get_height() * (2 / 3)) <= self.scroll_height + (event.y * 8) <= 0:
                 self.scroll_height += event.y * 8
 
 
