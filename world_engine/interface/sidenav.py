@@ -21,7 +21,7 @@ class Sidenav:
         self.current_layer = 0
 
         self.tiles_per_row = 5
-        self.tiles = list(array_split(import_cut_graphics(self.config.tilesets[0], self.config), self.tiles_per_row)) # list(self.original_tiles.keys()), len(list(self.original_tiles.keys())) // self.tiles_per_row))
+        self.tiles = list(array_split(import_cut_graphics(self.config.tilesets["plains"], self.config), self.tiles_per_row)) # list(self.original_tiles.keys()), len(list(self.original_tiles.keys())) // self.tiles_per_row))
 
         self.sidenav_surface = pygame.Surface((198 / 2, self.display_surface.get_height()))
         self.layer_surface = pygame.Surface((198 / 2, self.display_surface.get_height() * (1 / 3)))

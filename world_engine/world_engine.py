@@ -58,7 +58,7 @@ class WorldEngine:
                     elif event.key == pygame.K_e:
                         json_export(self.canvas.layers, self.config)
                     elif event.key == pygame.K_i:
-                        json_import(self.config)
+                        json_import(self.camera, self.canvas, self.config)
 
                 self.sidenav.get_current_tile()
                 self.sidenav.get_current_layer()
