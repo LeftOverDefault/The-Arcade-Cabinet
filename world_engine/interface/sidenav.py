@@ -14,7 +14,7 @@ class Sidenav:
         self.tile_group = pygame.sprite.Group()
         self.layer_group = pygame.sprite.Group()
 
-        self.font = Font(self.config.font, self.config.font_size, (255, 255, 255), config=self.config)
+        self.font = Font(self.config.font, self.config.font_size, self.config.font_colour, config=self.config)
 
         self.scroll_height = 0
         self.current_tile = 0
@@ -24,8 +24,8 @@ class Sidenav:
         self.tiles = list(array_split(import_cut_graphics(self.config.tilesets["plains"], self.config), self.tiles_per_row)) # list(self.original_tiles.keys()), len(list(self.original_tiles.keys())) // self.tiles_per_row))
 
         self.sidenav_surface = pygame.Surface((198 / 2, self.display_surface.get_height()))
-        self.layer_surface = pygame.Surface((198 / 2, self.display_surface.get_height() * (1 / 3)))
-        self.tile_surface = pygame.Surface((198 / 2, (len(self.tiles) + self.tiles_per_row) * self.config.tile_size))
+        self.layer_surface = pygame.Surface(((198 / 2) - 2, self.display_surface.get_height() * (1 / 3) - 1))
+        self.tile_surface = pygame.Surface(((198 / 2) - 2, (len(self.tiles) + self.tiles_per_row) * self.config.tile_size))
 
         self.draw_tiles()
         self.draw_layers()
@@ -69,22 +69,26 @@ class Sidenav:
     def get_current_layer(self) -> None:
         self.layer_mouse_rect.x = pygame.mouse.get_pos()[0] // (self.config.screen_multiplier // self.config.display_surface_multiplier)
         self.layer_mouse_rect.y = (pygame.mouse.get_pos()[1] // (self.config.screen_multiplier // self.config.display_surface_multiplier))
-        if pygame.mouse.get_pos()[1] // (self.config.screen_multiplier // self.config.display_surface_multiplier) < self.display_surface.get_height() * (1 / 3):
-            for letter in self.layer_group:
-                if self.layer_mouse_rect.colliderect(letter.rect):
-                    if pygame.mouse.get_pressed()[0]:
-                        self.current_layer = letter.index
+        if pygame.mouse.get_pressed()[0]:
+            if self.layer_mouse_rect.x <= self.layer_surface.get_width():
+                if pygame.mouse.get_pos()[1] // (self.config.screen_multiplier // self.config.display_surface_multiplier) < self.display_surface.get_height() * (1 / 3):
+                    for layer_index in range(len(self.config.layers)):
+                        if int(self.layer_mouse_rect.y) in range((layer_index * self.font.line_height), ((layer_index + 1) * self.font.line_height)):
+                            self.current_layer = layer_index
 
 
     def draw(self) -> None:
-        self.sidenav_surface.fill((15, 15, 15))
-        self.tile_surface.fill((50, 50, 50))
-        self.layer_surface.fill((25, 25, 25))
+        self.sidenav_surface.fill("#11131b")
+        self.tile_surface.fill("#1b1e2b")
+        self.layer_surface.fill("#1b1e2b")
 
         self.tile_group.draw(self.tile_surface)
+
         self.layer_group.draw(self.layer_surface)
 
-        self.sidenav_surface.blit(self.tile_surface, (0, self.display_surface.get_height() * (1 / 3) + self.scroll_height))
-        self.sidenav_surface.blit(self.layer_surface, (0, 0))
+        self.sidenav_surface.blit(self.tile_surface, (1, self.display_surface.get_height() * (1 / 3) + self.scroll_height))
+        self.sidenav_surface.blit(self.layer_surface, (1, 0))
+
+        pygame.draw.line(self.sidenav_surface, "#11131b", (0, self.layer_surface.get_height()), (self.sidenav_surface.get_width(), self.layer_surface.get_height()))
 
         self.display_surface.blit(self.sidenav_surface, (0, 0))

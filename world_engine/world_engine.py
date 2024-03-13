@@ -5,13 +5,14 @@ from world_engine.func.json_export import json_export
 from world_engine.func.json_import import json_import
 from world_engine.interface.canvas import Canvas
 from world_engine.interface.sidenav import Sidenav
+from world_engine.utils.config import *
 from world_engine.utils.imports import *
 
 
 class WorldEngine:
     def __init__(self, config) -> None:
         pygame.init()
-        pygame.display.set_caption("World Engine v0.1.0")
+        pygame.display.set_caption(f"World Engine v{VERSION}")
 
         self.config = Configure(config)
 
@@ -59,6 +60,11 @@ class WorldEngine:
                         json_export(self.canvas.layers, self.config)
                     elif event.key == pygame.K_i:
                         json_import(self.camera, self.canvas, self.config)
+                    elif event.key == pygame.K_c:
+                        self.camera.empty()
+                        for layer in self.canvas.layers:
+                            layer.empty()
+                            layer.tile_positions.clear()
 
                 self.sidenav.get_current_tile()
                 self.sidenav.get_current_layer()
@@ -69,12 +75,14 @@ class WorldEngine:
 
             self.delta_time = self.clock.tick(self.fps) / 1000
 
-            self.display_surface.fill((0, 0, 0))
+            self.display_surface.fill("#292d3e")
 
             self.camera.draw()
             self.camera.update(self.delta_time)
 
-            pygame.draw.circle(self.display_surface, (200, 200, 200), -self.camera.offset, 4)
+            # pygame.draw.circle(self.display_surface, "#52576c", -self.camera.offset, 1)
+            pygame.draw.line(self.display_surface, "#52576c", (-self.camera.offset.x, (-self.camera.offset.y) - 5), (-self.camera.offset.x, (-self.camera.offset.y) + 5))
+            pygame.draw.line(self.display_surface, "#52576c", ((-self.camera.offset.x) - 5, -self.camera.offset.y), ((-self.camera.offset.x) + 5, -self.camera.offset.y))
 
             self.sidenav.draw()
 
