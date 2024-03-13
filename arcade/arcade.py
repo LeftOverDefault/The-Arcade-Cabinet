@@ -34,7 +34,7 @@ class Arcade:
             self.debugger.font.render(surface=self.debugger.surface, text=f"Delta Time: {round(self.delta_time, 4)}", location=(10, 10 + (2 * self.debugger.font.line_height)))
             self.debugger.font.render(surface=self.debugger.surface, text=f"Player Pos: x = {int(self.world.player.position.x)}, y = {int(self.world.player.position.y)}", location=(10, 10 + (3 * self.debugger.font.line_height)))
             self.debugger.font.render(surface=self.debugger.surface, text=f"Player State: {self.world.player.status}", location=(10, 10 + (4 * self.debugger.font.line_height)))
-            self.debugger.font.render(surface=self.debugger.surface, text=f"Tile Count: {len(self.world.camera.sprites())}", location=(10, 10 + (5 * self.debugger.font.line_height)))
+            self.debugger.font.render(surface=self.debugger.surface, text=f"Rendered Tile Count: {len(self.world.camera.sprites())}", location=(10, 10 + (5 * self.debugger.font.line_height)))
         
 
         self.debugger.render = debug_render
