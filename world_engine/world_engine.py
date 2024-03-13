@@ -80,7 +80,6 @@ class WorldEngine:
             self.camera.draw()
             self.camera.update(self.delta_time)
 
-            # pygame.draw.circle(self.display_surface, "#52576c", -self.camera.offset, 1)
             pygame.draw.line(self.display_surface, "#52576c", (-self.camera.offset.x, (-self.camera.offset.y) - 5), (-self.camera.offset.x, (-self.camera.offset.y) + 5))
             pygame.draw.line(self.display_surface, "#52576c", ((-self.camera.offset.x) - 5, -self.camera.offset.y), ((-self.camera.offset.x) + 5, -self.camera.offset.y))
 

@@ -129,7 +129,7 @@ config = {
     "display_surface_multiplier": 1.5,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": False,
+    "debug": True,
     "tilesets": {
         "plains": "./assets/sprite/tilesets/tileset.png"
     },

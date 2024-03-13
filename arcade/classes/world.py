@@ -18,7 +18,6 @@ class World:
         self.tilesets = {}
 
         self.convert_world_layout()
-        self.render_chunks()
 
 
     def convert_world_layout(self) -> None:
@@ -60,10 +59,10 @@ class World:
                 chunk_x_offset = int(chunk[0])
                 chunk_y_offset = int(chunk[1])
 
-                in_left = camera_left <= (chunk_x_offset) + (self.config.chunk_size * self.config.tile_size)
-                in_right = camera_right >= chunk_x_offset
-                in_top = camera_top <= (chunk_y_offset) + (self.config.chunk_size * self.config.tile_size)
-                in_bottom = camera_bottom >= chunk_y_offset
+                in_left = camera_left <= (chunk_x_offset) + (self.config.chunk_size * self.config.tile_size) - self.config.chunk_size
+                in_right = camera_right >= chunk_x_offset - self.config.chunk_size
+                in_top = camera_top <= (chunk_y_offset) + (self.config.chunk_size * self.config.tile_size) - self.config.chunk_size
+                in_bottom = camera_bottom >= chunk_y_offset - self.config.chunk_size
 
                 tiles = layer_data["chunk_data"][chunk]
 
@@ -71,12 +70,15 @@ class World:
                     for tile in tiles:
                         tile_x = round((tile[0][0] + (chunk_x_offset * self.config.chunk_size)) * self.config.tile_size)
                         tile_y = round((tile[0][1] + (chunk_y_offset * self.config.chunk_size)) * self.config.tile_size)
-                        tile = StaticTile(self.tilesets[layer_data["tileset"]][tile[1]], (tile_x, tile_y), layer_data["layer_name"], layer, self.config)
-            
+                        StaticTile(self.tilesets[layer_data["tileset"]][tile[1]], (tile_x, tile_y), layer_data["layer_name"], layer, self.config)
+
             self.camera.add_group(layer, self.player)
+            layer.empty()
 
 
     def render(self) -> None:
+        self.camera.empty()
+        self.render_chunks()
         self.camera.draw(self.player)
 
 
