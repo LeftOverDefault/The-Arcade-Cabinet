@@ -1,44 +1,3 @@
-# import arcade
-# from arcade.classes.camera import Camera
-# from arcade.classes.player import Player
-# from arcade.classes.world import World
-# from arcade.debug.debugger import Debugger
-# from arcade.utils.imports import *
-
-# # "0;0": 0, "1;0": -1, "2;0": 0, "3;0": -1, "4;0": 0, "5;0": -1, "6;0": 0, "7;0": -1,
-# # "0;1": -1, "1;1": 0, "2;1": -1, "3;1": 0, "4;1": -1, "5;1": 0, "6;1": -1, "7;1": 0,
-# # "0;2": 0, "1;2": -1, "2;2": 0, "3;2": -1, "4;2": 0, "5;2": -1, "6;2": 0, "7;2": -1,
-# # "0;3": -1, "1;3": 0, "2;3": -1, "3;3": 0, "4;3": -1, "5;3": 0, "6;3": -1, "7;3": 0,
-# # "0;4": 0, "1;4": -1, "2;4": 0, "3;4": -1, "4;4": 0, "5;4": -1, "6;4": 0, "7;4": -1,
-# # "0;5": -1, "1;5": 0, "2;5": -1, "3;5": 0, "4;5": -1, "5;5": 0, "6;5": -1, "7;5": 0,
-# # "0;6": 0, "1;6": -1, "2;6": 0, "3;6": -1, "4;6": 0, "5;6": -1, "6;6": 0, "7;6": -1,
-# # "0;7": -1, "1;7": 0, "2;7": -1, "3;7": 0, "4;7": -1, "5;7": 0, "6;7": -1, "7;7": 0,
-
-# # config = {
-# #     "name": "Arcade Test",
-# #     "version": "0.1.0",
-# #     "resolution": [int(192 * 1.25), int(108 * 1.25)],
-# #     "scale_factor": 5,
-# #     "tile_size": 16,
-# #     "chunk_size": 8,
-# #     "camera_delay": 25,
-# #     "fps": 60,
-# #     "fullscreen": False,
-# #     "worlds": [
-# #         world
-# #     ]
-# # }
-
-# config = {
-#     "name": "Arcade Test",
-#     "version": "0.1.0",
-#     "scale_factor": 2,
-#     "tile_size": 16,
-#     "chunk_size": 8,
-#     "debug": True,
-# }
-
-
 # def render_chunk(config, chunk_coordinates, chunk_x_offset, chunk_y_offset):
 #     tiles = []
 #     for coordinate in chunk_coordinates:
@@ -116,8 +75,6 @@
 # if __name__ == "__main__":
 #     main = Main()
 #     main.run()
-
-
 
 
 import arcade
