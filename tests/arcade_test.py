@@ -2,7 +2,7 @@ from arcade_cabinet_LeftOverDefault import arcade
 from arcade_cabinet_LeftOverDefault.arcade.classes.world import World
 from arcade_cabinet_LeftOverDefault.arcade.interface.menu import Menu
 from arcade_cabinet_LeftOverDefault.arcade.utils.imports import *
-
+import time
 config = {
     "name": "Arcade Test",
     "screen_multiplier": 6,
