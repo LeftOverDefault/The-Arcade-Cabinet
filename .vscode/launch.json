@@ -8,14 +8,14 @@
             "name": "Arcade Test",
             "type": "debugpy",
             "request": "launch",
-            "program": "./arcade_test.py",
+            "program": "./tests/arcade_test.py",
             "console": "integratedTerminal"
         },
         {
             "name": "World Engine",
             "type": "debugpy",
             "request": "launch",
-            "program": "./world_engine_test.py",
+            "program": "./tests/world_engine_test.py",
             "console": "integratedTerminal"
         }
     ]
