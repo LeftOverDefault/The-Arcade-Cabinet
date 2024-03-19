@@ -8,7 +8,7 @@ def json_export(layers, config):
         layer_dict = {
             "layer_name": layer_name,
             "layer_index": layer_index,
-            "layer_tileset": "plains",
+            "layer_tileset": config.current_tileset,
             "y-sorted": False,
             "collidable": False,
             "layer_chunks": {}

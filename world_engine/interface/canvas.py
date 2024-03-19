@@ -10,7 +10,7 @@ class Canvas:
         self.config = config
         self.camera = camera
 
-        self.tileset = import_cut_graphics(self.config.tilesets["plains"], self.config)
+        self.tileset = import_cut_graphics(self.config.tilesets[self.config.current_tileset], self.config)
         self.sidenav_width = (pygame.display.get_surface().get_width() / self.config.screen_multiplier) * (3 / 2)
 
         self.layers = []

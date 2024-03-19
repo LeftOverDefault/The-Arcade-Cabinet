@@ -78,6 +78,7 @@
 
 
 import arcade
+from arcade.debug.debugger import Debugger
 
 
 config = {
@@ -88,7 +89,8 @@ config = {
     "chunk_size": 8,
     "debug": True,
     "tilesets": {
-        "plains": "./assets/sprite/tilesets/tileset.png"
+        "tilesheet": "./assets/sprite/tilesets/tileset.png",
+        # "plains": "./assets/sprite/tilesets/plains.png"
     },
     "font": "./assets/font/font.png",
     "font_order": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ".", "-", ",", ":", "+", "'", "!", "?", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "(", ")", "/", "_", "=", "\\", "[", "]", "*", "\"", "<", ">", ";", "|", "~", "£", "ƒ", "{", "}", "@", "#", "$", "%", "&", "^", "`"],
@@ -99,6 +101,30 @@ config = {
 }
 
 
+class Main:
+    def __init__(self, config) -> None:
+        self.config = config
+        self.arcade = arcade.Arcade(self.config)
+
+        self.debugger = Debugger(self.arcade.config.font, self.arcade.config)
+        self.debugger.render = self.debug_render
+
+        self.arcade.debugger = self.debugger
+
+    
+    def debug_render(self) -> None:
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Debug Menu:", location=(10, 10 + (0 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"FPS: {round(number=self.arcade.clock.get_fps())}", location=(10, 10 + (1 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Delta Time: {round(self.arcade.delta_time, 4)}", location=(10, 10 + (2 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Player Pos: x = {int(self.arcade.world.player.position.x)}, y = {int(self.arcade.world.player.position.y)}", location=(10, 10 + (3 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Player State: {self.arcade.world.player.status}", location=(10, 10 + (4 * self.debugger.font.line_height)))
+        self.debugger.font.render(surface=self.debugger.surface, text=f"Rendered Tile Count: {len(self.arcade.world.camera.sprites())}", location=(10, 10 + (5 * self.debugger.font.line_height)))
+    
+
+    def run(self) -> None:
+        self.arcade.run()
+
+
 if __name__ == "__main__":
-    arcade = arcade.Arcade(config)
-    arcade.run()
+    main = Main(config)
+    main.run()
