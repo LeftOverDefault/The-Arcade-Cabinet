@@ -10,7 +10,8 @@ class Menu:
 
         self.buttons = []
 
-        self.running = True
+        self.running = False
+        self.bg_color = (100, 100, 100, 50)
 
         self.mouse_rect = pygame.Rect(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1], 1, 1)
 
@@ -35,7 +36,7 @@ class Menu:
                 self.running = False
 
             button.draw()
-    
+
 
     def events(self, event) -> None:
         ...
@@ -50,7 +51,7 @@ class Menu:
                     exit()
                 self.events(event)
 
-            self.display_surface.fill((0, 0, 0))
+            self.display_surface.fill(self.bg_color)
 
             self.update_mouse_rect()
 

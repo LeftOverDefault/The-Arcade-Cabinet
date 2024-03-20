@@ -2,14 +2,15 @@ from arcade_cabinet_LeftOverDefault import arcade
 from arcade_cabinet_LeftOverDefault.arcade.classes.world import World
 from arcade_cabinet_LeftOverDefault.arcade.interface.menu import Menu
 from arcade_cabinet_LeftOverDefault.arcade.utils.imports import *
-import time
+
+
 config = {
     "name": "Arcade Test",
     "screen_multiplier": 6,
     "display_surface_multiplier": 1.5,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": True,
+    "debug": False,
     "tilesets": {
         "tilesheet": "./assets/sprite/tilesets/tileset.png",
         # "plains": "./assets/sprite/tilesets/plains.png"
@@ -29,12 +30,13 @@ class Main:
         self.arcade = arcade.Arcade(config)
 
         self.world = World(self.arcade.display_surface, self.arcade.config)
+        self.pause = Pause(self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
+        self.pause.bg_color = (255, 255, 255, 0)
 
         self.arcade.render = self.render
         self.arcade.update = self.update
         self.arcade.events = self.events
 
-        self.pause = Pause(self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
 
     def render_debugger(self):
         self.arcade.debugger.debug_info.clear()
@@ -50,15 +52,16 @@ class Main:
         self.render_debugger()
 
         self.world.render()
-    
+
 
     def update(self, delta_time) -> None:
         self.world.update(delta_time)
-    
+
 
     def events(self, event) -> None:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
+                self.world.render()
                 self.pause.run()
 
 
@@ -80,3 +83,10 @@ class Pause(Menu):
 if __name__ == "__main__":
     main = Main(config)
     main.run()
+
+
+
+# py -m build
+# py -m twine upload --repository testpypi dist/*
+# pip uninstall arcade-cabinet-LeftOverDefault
+# pip install -i https://test.pypi.org/simple/ arcade-cabinet-LeftOverDefault==0.0.0.8

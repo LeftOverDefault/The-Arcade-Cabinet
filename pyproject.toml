@@ -1,6 +1,6 @@
 [project]
 name = "arcade_cabinet_LeftOverDefault"
-version = "0.0.0.7"
+version = "0.0.0.8"
 authors = [
     { name="LeftOverDefault", email="michaelgoddard@outlook.com" },
 ]
