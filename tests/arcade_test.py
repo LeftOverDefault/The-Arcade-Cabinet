@@ -1,7 +1,7 @@
-from arcade_cabinet_LeftOverDefault import arcade
-from arcade_cabinet_LeftOverDefault.arcade.classes.world import World
-from arcade_cabinet_LeftOverDefault.arcade.interface.menu import Menu
-from arcade_cabinet_LeftOverDefault.arcade.utils.imports import *
+from framework.arcade import arcade
+from framework.arcade.classes.world import World
+from framework.arcade.interface.menu import Menu
+from framework.arcade.utils.imports import *
 
 
 config = {
@@ -83,10 +83,3 @@ class Pause(Menu):
 if __name__ == "__main__":
     main = Main(config)
     main.run()
-
-
-
-# py -m build
-# py -m twine upload --repository testpypi dist/*
-# pip uninstall arcade-cabinet-LeftOverDefault
-# pip install -i https://test.pypi.org/simple/ arcade-cabinet-LeftOverDefault==0.0.0.8
