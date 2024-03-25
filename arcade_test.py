@@ -63,14 +63,15 @@ class Main:
 
         # Particle("./assets/sprite/environment/particle", [mx, my], [random.randint(0, 20) / 10 - 1, -2], 9.80665, random.randint(4, 6), self.arcade.particle_system)
 
-        x = self.world.player.rect.topleft[0] - self.world.camera.offset[0]
-        y = self.world.player.rect.topleft[1] - self.world.camera.offset[1]
+        x = 0 - self.world.camera.offset[0]
+        y = 0 - self.world.camera.offset[1]
 
-        x_vel = random.randint(-3, 3) / 15
-        y_vel = random.randint(-2, -1) / 10
-        acceleration = -0.25
+        # x_vel = 0
+        # y_vel = 0
+        # acceleration = 0
+        Particle("./assets/sprite/environment/particle", [x, y], self.arcade.particle_system)
 
-        Particle("./assets/sprite/environment/particle", [x, y], [x_vel, y_vel], acceleration, 1.5, self.arcade.particle_system)
+        # Particle("./assets/sprite/environment/particle", [x, y], [x_vel, y_vel], acceleration, 100000, self.arcade.particle_system)
         self.arcade.particle_system.draw()
 
 
