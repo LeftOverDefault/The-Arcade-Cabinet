@@ -1,3 +1,4 @@
+from framework.arcade.classes.particle_system import ParticleSystem
 from framework.arcade.utils.imports import *
 from framework.arcade.classes.configure import Configure
 from framework.arcade.debug.debugger import Debugger
@@ -24,6 +25,8 @@ class Arcade:
         self.fullscreen = False
 
         self.debugger = Debugger(self.config.font, self.config)
+
+        self.particle_system = ParticleSystem(self.display_surface, self.config)
 
         print(f"arcade 0.1.0 (Python {platform.python_version()})")
 

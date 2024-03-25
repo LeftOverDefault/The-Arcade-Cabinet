@@ -11,7 +11,7 @@ class Camera(pygame.sprite.Group):
 
         self.half_width = self.display_surface.get_width() // 2
         self.half_height = self.display_surface.get_height() // 2
-        
+
         self.camera_delay = 25
 
         self.y_sort_layer = Layer(True, False)

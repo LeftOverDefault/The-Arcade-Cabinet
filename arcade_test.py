@@ -1,8 +1,8 @@
 from framework.arcade import arcade
+from framework.arcade.classes.particle import Particle
 from framework.arcade.classes.world import World
 from framework.arcade.interface.menu import Menu
 from framework.arcade.utils.imports import *
-
 
 config = {
     "name": "Arcade Test",
@@ -10,7 +10,7 @@ config = {
     "display_surface_multiplier": 1.5,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": False,
+    "debug": True,
     "tilesets": {
         "tilesheet": "./assets/sprite/tilesets/tileset.png",
         # "plains": "./assets/sprite/tilesets/plains.png"
@@ -38,6 +38,10 @@ class Main:
         self.arcade.events = self.events
 
 
+        self.arcade.particle_system.max_particles = 50
+
+
+
     def render_debugger(self):
         self.arcade.debugger.debug_info.clear()
 
@@ -46,6 +50,7 @@ class Main:
         self.arcade.debugger.debug_info.append(f"Delta Time: {round(self.arcade.delta_time, 4)}")
         self.arcade.debugger.debug_info.append(f"Player Pos: x = {int(self.world.player.position.x)}, y = {int(self.world.player.position.y)}")
         self.arcade.debugger.debug_info.append(f"Player Status: {self.world.player.status}")
+        self.arcade.debugger.debug_info.append(f"Particles: {len(self.arcade.particle_system.sprites())}")
 
 
     def render(self) -> None:
@@ -53,9 +58,26 @@ class Main:
 
         self.world.render()
 
+        # mx = pygame.mouse.get_pos()[0] // (self.arcade.config.screen_multiplier // self.arcade.config.display_surface_multiplier)
+        # my = pygame.mouse.get_pos()[1] // (self.arcade.config.screen_multiplier // self.arcade.config.display_surface_multiplier)
+
+        # Particle("./assets/sprite/environment/particle", [mx, my], [random.randint(0, 20) / 10 - 1, -2], 9.80665, random.randint(4, 6), self.arcade.particle_system)
+
+        x = self.world.player.rect.topleft[0] - self.world.camera.offset[0]
+        y = self.world.player.rect.topleft[1] - self.world.camera.offset[1]
+
+        x_vel = random.randint(-3, 3) / 15
+        y_vel = random.randint(-2, -1) / 10
+        acceleration = -0.25
+
+        Particle("./assets/sprite/environment/particle", [x, y], [x_vel, y_vel], acceleration, 1.5, self.arcade.particle_system)
+        self.arcade.particle_system.draw()
+
+
 
     def update(self, delta_time) -> None:
         self.world.update(delta_time)
+        self.arcade.particle_system.update(self.arcade.delta_time)
 
 
     def events(self, event) -> None:

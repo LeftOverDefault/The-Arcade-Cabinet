@@ -7,6 +7,9 @@ class Player(pygame.sprite.Sprite):
         super().__init__(group)
         self.image = pygame.image.load(path + "idle_down/0.png").convert_alpha()
         self.rect = self.image.get_rect(center=initial_position)
+        self.attack_surf = pygame.Surface((16, 16))
+        self.attack_surf.fill((255, 0, 0))
+        self.attack_rect = self.attack_surf.get_rect(topleft=initial_position)
 
         self.direction = pygame.Vector2()
         self.position = pygame.Vector2(initial_position)
@@ -70,6 +73,9 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
         
+        # if keys[pygame.K_k]:
+            # self.status = "attack_" + self.status.split("_")[1]
+        
     
     def move(self, delta_time):
         if self.direction.magnitude() > 0:
@@ -79,6 +85,11 @@ class Player(pygame.sprite.Sprite):
         self.collide_x()
         self.rect.y += round(number=self.direction.y * self.speed * delta_time)
         self.collide_y()
+    
+
+    def update_attack_rect(self) -> None:
+        self.attack_rect.x = self.position.x
+        self.attack_rect.y = self.position.y
 
 
     def collide_x(self) -> None:
@@ -112,3 +123,4 @@ class Player(pygame.sprite.Sprite):
         self.get_status()
         self.animate(delta_time=delta_time)
         self.update_position()
+        self.update_attack_rect()
