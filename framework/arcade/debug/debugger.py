@@ -15,7 +15,7 @@ class Debugger:
 
     def render(self) -> None:
         for info_index, info in enumerate(self.debug_info):
-            self.font.render(surface=self.surface, text=info, location=(10, 10 + (info_index * self.font.line_height)))
+            self.font.render(surface=self.surface, text=info, location=(10, 10 + (info_index * (self.font.line_height + 4))))
 
 
     def draw(self) -> None:

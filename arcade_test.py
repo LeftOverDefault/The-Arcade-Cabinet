@@ -1,6 +1,8 @@
 from framework.arcade import arcade
 from framework.arcade.classes.particle import Particle
 from framework.arcade.classes.world import World
+from framework.arcade.font.font import Font
+from framework.arcade.interface.button import Button
 from framework.arcade.interface.menu import Menu
 from framework.arcade.utils.imports import *
 
@@ -31,15 +33,18 @@ class Main:
 
         self.world = World(self.arcade.display_surface, self.arcade.config)
         self.pause = Pause(self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
-        self.pause.bg_color = (255, 255, 255, 0)
+        
+        resume_button = Button(None, [100, 100], "Resume", "./assets/font/font.png", "#fefefe", "#8f8f8f", self.pause)
+
+        def event(menu):
+            menu.running = False
+        resume_button.event = event
 
         self.arcade.render = self.render
         self.arcade.update = self.update
         self.arcade.events = self.events
 
-
         self.arcade.particle_system.max_particles = 50
-
 
 
     def render_debugger(self):
@@ -72,7 +77,7 @@ class Main:
         Particle("./assets/sprite/environment/particle", [x, y], self.arcade.particle_system)
 
         # Particle("./assets/sprite/environment/particle", [x, y], [x_vel, y_vel], acceleration, 100000, self.arcade.particle_system)
-        self.arcade.particle_system.draw()
+        # self.arcade.particle_system.draw()
 
 
 
@@ -95,12 +100,11 @@ class Main:
 class Pause(Menu):
     def __init__(self, display_surface, debugger, config) -> None:
         super().__init__(display_surface, debugger, config)
+        self.background_color = "#2e2e2e"
 
 
     def events(self, event) -> None:
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_ESCAPE:
-                self.running = False
+        ...
 
 
 if __name__ == "__main__":

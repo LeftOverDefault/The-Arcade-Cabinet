@@ -72,7 +72,6 @@ class Player(pygame.sprite.Sprite):
             self.status = "run_right"
         else:
             self.direction.x = 0
-        
         # if keys[pygame.K_k]:
             # self.status = "attack_" + self.status.split("_")[1]
         

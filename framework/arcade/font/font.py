@@ -23,7 +23,7 @@ class Font:
             else:
                 current_char_width += 1
         self.space_width = self.characters["A"].get_width()
-        self.line_height = self.characters["A"].get_height() + 4
+        self.line_height = self.characters["A"].get_height()
 
 
     def clip(self, surface: pygame.Surface, x, y, x_size, y_size):
@@ -42,7 +42,7 @@ class Font:
                 x_offset += self.characters[char].get_width() + self.spacing
             else:
                 x_offset += self.space_width + self.spacing
-    
+
 
     def return_image(self, text):
         x_offset = 0
@@ -53,4 +53,4 @@ class Font:
                 x_offset += self.characters[char].get_width() + self.spacing
             else:
                 x_offset += self.space_width + self.spacing
-        return text_images
+        return text_images, x_offset
