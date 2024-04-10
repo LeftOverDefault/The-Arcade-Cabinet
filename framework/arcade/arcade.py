@@ -1,7 +1,9 @@
-from framework.arcade.classes.particle_system import ParticleSystem
-from framework.arcade.utils.imports import *
 from framework.arcade.classes.configure import Configure
+from framework.arcade.classes.particle_system import ParticleSystem
 from framework.arcade.debug.debugger import Debugger
+from framework.arcade.func.fade_in import fade_in
+from framework.arcade.func.fade_out import fade_out
+from framework.arcade.utils.imports import *
 
 
 class Arcade:
@@ -15,11 +17,12 @@ class Arcade:
 
 
     def on_init(self) -> None:
-        self.screen = pygame.display.set_mode((198 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
-        self.display_surface = pygame.Surface((198 * self.config.display_surface_multiplier, 108 * self.config.display_surface_multiplier))
+        self.screen = pygame.display.set_mode((192 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
+        self.display_surface = pygame.Surface((192 * self.config.display_surface_multiplier, 108 * self.config.display_surface_multiplier))
 
         self.clock = pygame.time.Clock()
         self.fps = 60
+        self.delta_time = self.clock.tick(self.fps) / 1000
 
         self.running = True
         self.fullscreen = False
@@ -27,6 +30,9 @@ class Arcade:
         self.debugger = Debugger(self.config.font, self.config)
 
         self.particle_system = ParticleSystem(self.display_surface, self.config)
+
+        self.fade_surf = pygame.Surface(pygame.display.get_surface().get_size())
+        self.fade_surf.fill((0, 0, 0))
 
         print(f"arcade 0.1.0 (Python {platform.python_version()})")
 
@@ -44,6 +50,7 @@ class Arcade:
 
 
     def run(self) -> None:
+        fade_in(int(time_converter(0.0025, "milliseconds")), self.fade_surf, self.display_surface, self.screen, self.render)
         self.running = True
         while self.running == True:
             for event in pygame.event.get():
@@ -57,11 +64,11 @@ class Arcade:
                         if self.fullscreen == True:
                             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                         else:
-                            self.screen = pygame.display.set_mode((198 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
+                            self.screen = pygame.display.set_mode((192 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
                 self.events(event)
 
             self.delta_time = self.clock.tick(self.fps) / 1000
-            self.display_surface.fill((0, 0, 0))
+            self.display_surface.fill((40, 42, 50))
 
             self.render()
             self.update(self.delta_time)
@@ -71,3 +78,5 @@ class Arcade:
                 self.debugger.draw()
 
             pygame.display.update()
+        fade_out(int(time_converter(0.0025, "milliseconds")), self.fade_surf, self.display_surface, self.screen, self.render)
+        

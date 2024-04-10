@@ -12,13 +12,6 @@
             "console": "integratedTerminal"
         },
         {
-            "name": "Game Engine",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "./engine/main.py",
-            "console": "integratedTerminal"
-        },
-        {
             "name": "World Engine",
             "type": "debugpy",
             "request": "launch",

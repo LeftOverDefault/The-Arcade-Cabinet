@@ -4,7 +4,7 @@ from framework.arcade.utils.imports import *
 def import_cut_graphics(path, config) -> list:
     cut_tiles = []
 
-    surface = pygame.image.load(file=path).convert_alpha()
+    surface = pygame.image.load(path).convert_alpha()
     tile_num_x = int(surface.get_size()[0] / config.tile_size)
     tile_num_y = int(surface.get_size()[1] / config.tile_size)
 

@@ -1,10 +1,16 @@
 from framework.arcade import arcade
-from framework.arcade.classes.particle import Particle
-from framework.arcade.classes.world import World
-from framework.arcade.font.font import Font
-from framework.arcade.interface.button import Button
-from framework.arcade.interface.menu import Menu
+from framework.arcade.classes import World
+from framework.arcade.func.fade_in import fade_in
+from framework.arcade.func.fade_out import fade_out
+from framework.arcade.interface import Button, Menu
 from framework.arcade.utils.imports import *
+
+from tests.menu.main import MainMenu
+from tests.menu.options import Options
+from tests.menu.pause import Pause
+
+from tests.screen.banner import Banner
+
 
 config = {
     "name": "Arcade Test",
@@ -12,7 +18,7 @@ config = {
     "display_surface_multiplier": 1.5,
     "tile_size": 16,
     "chunk_size": 8,
-    "debug": True,
+    "debug": False,
     "tilesets": {
         "tilesheet": "./assets/sprite/tilesets/tileset.png",
         # "plains": "./assets/sprite/tilesets/plains.png"
@@ -32,13 +38,11 @@ class Main:
         self.arcade = arcade.Arcade(config)
 
         self.world = World(self.arcade.display_surface, self.arcade.config)
-        self.pause = Pause(self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
-        
-        resume_button = Button(None, [100, 100], "Resume", "./assets/font/font.png", "#fefefe", "#8f8f8f", self.pause)
 
-        def event(menu):
-            menu.running = False
-        resume_button.event = event
+        self.banner = Banner(self.arcade.screen)
+        self.main_menu = MainMenu(self.arcade.screen, self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
+        self.pause = Pause(self.arcade.screen, self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
+        self.options = Options(self.arcade.display_surface, self.arcade.debugger, self.arcade.config)
 
         self.arcade.render = self.render
         self.arcade.update = self.update
@@ -55,11 +59,13 @@ class Main:
         self.arcade.debugger.debug_info.append(f"Delta Time: {round(self.arcade.delta_time, 4)}")
         self.arcade.debugger.debug_info.append(f"Player Pos: x = {int(self.world.player.position.x)}, y = {int(self.world.player.position.y)}")
         self.arcade.debugger.debug_info.append(f"Player Status: {self.world.player.status}")
-        self.arcade.debugger.debug_info.append(f"Particles: {len(self.arcade.particle_system.sprites())}")
+        self.arcade.debugger.debug_info.append(f"Particle Count: {len(self.arcade.particle_system.sprites())}")
+
 
 
     def render(self) -> None:
-        self.render_debugger()
+        if self.arcade.config.debug == True:
+            self.render_debugger()
 
         self.world.render()
 
@@ -68,17 +74,16 @@ class Main:
 
         # Particle("./assets/sprite/environment/particle", [mx, my], [random.randint(0, 20) / 10 - 1, -2], 9.80665, random.randint(4, 6), self.arcade.particle_system)
 
-        x = 0 - self.world.camera.offset[0]
-        y = 0 - self.world.camera.offset[1]
+        # x = 0 - self.world.camera.offset[0]
+        # y = 0 - self.world.camera.offset[1]
 
         # x_vel = 0
         # y_vel = 0
         # acceleration = 0
-        Particle("./assets/sprite/environment/particle", [x, y], self.arcade.particle_system)
+        # Particle("./assets/sprite/environment/particle", [x, y], self.arcade.particle_system)
 
         # Particle("./assets/sprite/environment/particle", [x, y], [x_vel, y_vel], acceleration, 100000, self.arcade.particle_system)
-        # self.arcade.particle_system.draw()
-
+        self.arcade.particle_system.draw()
 
 
     def update(self, delta_time) -> None:
@@ -89,24 +94,49 @@ class Main:
     def events(self, event) -> None:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                self.world.render()
+                fade_out(int(time_converter(0.0025, "milliseconds")), self.arcade.fade_surf, self.arcade.display_surface, self.arcade.screen, self.arcade.render)
+                fade_in(int(time_converter(0.0025, "milliseconds")), self.pause.fade_surf, self.pause.display_surface, self.pause.screen, self.pause.render)
                 self.pause.run()
 
 
     def run(self) -> None:
+        self.banner.run()
+
+        self.main_menu.run()
         self.arcade.run()
-
-
-class Pause(Menu):
-    def __init__(self, display_surface, debugger, config) -> None:
-        super().__init__(display_surface, debugger, config)
-        self.background_color = "#2e2e2e"
-
-
-    def events(self, event) -> None:
-        ...
 
 
 if __name__ == "__main__":
     main = Main(config)
+
+    img = pygame.Surface([96, 16])
+    img.fill((0, 0, 0))
+        
+    play_button = Button(img, [main.arcade.display_surface.get_width() // 2, main.arcade.display_surface.get_height() // 3], "Play", "./assets/font/font.png", "#fefefe", "#8f8f8f", main.main_menu)
+    resume_button = Button(img, [main.arcade.display_surface.get_width() // 2, main.arcade.display_surface.get_height() // 3], "Resume", "./assets/font/font.png", "#fefefe", "#8f8f8f", main.pause)
+    options_button = Button(img, [main.arcade.display_surface.get_width() // 2, main.arcade.display_surface.get_height() // 2], "Options", "./assets/font/font.png", "#fefefe", "#8f8f8f", main.pause)
+    quit_button = Button(img, [main.arcade.display_surface.get_width() // 2, main.arcade.display_surface.get_height() // (3 / 2)], "Quit", "./assets/font/font.png", "#fefefe", "#8f8f8f", main.pause)
+
+    def play_event():
+        play_button.menu.running = False
+        fade_out(int(time_converter(0.0025, "milliseconds")), main.main_menu.fade_surf, main.main_menu.display_surface, main.main_menu.screen, main.main_menu.render)
+        pygame.time.delay(int(time_converter(0.5, "milliseconds")))
+        main.arcade.run()
+    def resume_event():
+        resume_button.menu.running = False
+        fade_out(int(time_converter(0.0025, "milliseconds")), resume_button.menu.fade_surf, resume_button.menu.display_surface, resume_button.menu.screen, resume_button.menu.render)
+        fade_in(int(time_converter(0.0025, "milliseconds")), main.arcade.fade_surf, main.arcade.display_surface, main.arcade.screen, main.arcade.render)
+    def options_event():
+        main.options.run()
+    def quit_event():
+        main.arcade.running = False
+        fade_out(int(time_converter(0.0025, "milliseconds")), main.pause.fade_surf, main.pause.display_surface, main.pause.screen, main.pause.render)
+        resume_button.menu.running = False
+        main.main_menu.run()
+
+    play_button.event = play_event
+    resume_button.event = resume_event
+    options_button.event = options_event
+    quit_button.event = quit_event
+
     main.run()

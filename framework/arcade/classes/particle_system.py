@@ -16,10 +16,10 @@ class ParticleSystem(pygame.sprite.Group):
             # if alive == 1:
                 # particle.alive = False
             # if particle.alive == True:
-                # if len(self) > self.max_particles:
-                    # self.remove(particle)
-                    # particle.alive = False
-                # else:
+                if len(self) > self.max_particles:
+                    self.remove(particle)
+                    particle.alive = False
+                else:
                     self.display_surface.blit(particle.image, particle.rect)
             # else:
                 # self.remove(particle)

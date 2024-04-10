@@ -9,6 +9,7 @@ class Menu:
         self.debugger = debugger
 
         self.buttons = []
+        self.elements = []
 
         self.running = False
         self.background_color = (100, 100, 100, 50)
@@ -30,11 +31,20 @@ class Menu:
     def draw(self) -> None:
         for button in self.buttons:
             button.draw()
+    
+    def update(self) -> None:
+        for button in self.buttons:
             button.change_color([self.mouse_rect.x, self.mouse_rect.y])
-            button_clicked = button.check_input([self.mouse_rect.x, self.mouse_rect.y])
 
-            if button_clicked:
-                button.event(self)
+            if button.check_input([self.mouse_rect.x, self.mouse_rect.y]):
+                button.event()
+    
+
+    def render(self) -> None:
+        self.display_surface.fill(self.background_color)
+        self.update_mouse_rect()
+
+        self.draw()
 
 
     def events(self, event) -> None:
@@ -50,11 +60,8 @@ class Menu:
                     exit()
                 self.events(event)
 
-            self.display_surface.fill(self.background_color)
-
-            self.update_mouse_rect()
-
-            self.draw()
+            self.render()
+            self.update()
 
             self.screen.blit(pygame.transform.scale(self.display_surface, self.screen.get_size()), (0, 0))
             if self.config.debug == True:

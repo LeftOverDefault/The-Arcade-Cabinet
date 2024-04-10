@@ -58,7 +58,7 @@ class Particle(pygame.sprite.Sprite):
 
         self.animation_speed = len(self.animation) + (len(self.animation) // 2)
         self.frame_index = 0
-    
+
 
     def get_animations(self, path) -> None:
         full_path = path + "/"
@@ -72,7 +72,7 @@ class Particle(pygame.sprite.Sprite):
             self.frame_index = len(self.animation) - 1
 
         self.image = self.animation[int(self.frame_index)]
-    
+
 
     def update(self, delta_time) -> None:
         self.animate(delta_time)
