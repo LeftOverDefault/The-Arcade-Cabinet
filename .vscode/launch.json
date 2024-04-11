@@ -8,7 +8,7 @@
             "name": "Arcade Test",
             "type": "debugpy",
             "request": "launch",
-            "program": "./arcade_test.py",
+            "program": "./game.py",
             "console": "integratedTerminal"
         },
         {

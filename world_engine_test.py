@@ -1,9 +1,9 @@
-from framework.world_engine import world_engine
+from framework_old.world_engine import world_engine
 
 
 config = {
     "screen_multiplier": 6,
-    "display_surface_multiplier": 2,
+    "display_surface_multiplier": 4,
     "tile_size": 16,
     "chunk_size": 8,
     "debug": False,
