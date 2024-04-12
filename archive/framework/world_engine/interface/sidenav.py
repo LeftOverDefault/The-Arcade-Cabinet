@@ -1,9 +1,9 @@
-from framework.world_engine.classes.tile.letter_tile import LetterTile
-from framework.world_engine.classes.tile.sidenav_tile import SidenavTile
-from framework.world_engine.font.font import Font
-from framework.world_engine.func.array_split import array_split
-from framework.world_engine.func.import_cut_graphics import import_cut_graphics
-from framework.world_engine.utils.imports import *
+from archive.framework.world_engine.classes.tile.letter_tile import LetterTile
+from archive.framework.world_engine.classes.tile.sidenav_tile import SidenavTile
+from archive.framework.world_engine.font.font import Font
+from archive.framework.world_engine.func.array_split import array_split
+from archive.framework.world_engine.func.import_cut_graphics import import_cut_graphics
+from archive.framework.world_engine.utils.imports import *
 
 
 class Sidenav:

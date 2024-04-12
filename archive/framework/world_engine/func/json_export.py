@@ -1,4 +1,4 @@
-from framework.world_engine.utils.imports import *
+from archive.framework.world_engine.utils.imports import *
 
 
 def json_export(layers, config):
@@ -34,6 +34,6 @@ def json_export(layers, config):
         try:
             with open(f"{config.build_directory}{config.world_name}_{layer_name}.json", "x") as layer_file:
                 json.dump(layer_dict, layer_file)
-        except FileExistsError:
+        except FileExistsError or FileNotFoundError:
             with open(f"{config.build_directory}{config.world_name}_{layer_name}.json", "w") as layer_file:
                 json.dump(layer_dict, layer_file)

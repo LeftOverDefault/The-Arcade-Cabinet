@@ -1,12 +1,12 @@
-from framework.world_engine.classes.camera import Camera
-from framework.world_engine.classes.configure import Configure
-from framework.world_engine.debug.debugger import Debugger
-from framework.world_engine.func.json_export import json_export
-from framework.world_engine.func.json_import import json_import
-from framework.world_engine.interface.canvas import Canvas
-from framework.world_engine.interface.sidenav import Sidenav
-from framework.world_engine.utils.config import *
-from framework.world_engine.utils.imports import *
+from archive.framework.world_engine.classes.camera import Camera
+from archive.framework.world_engine.classes.configure import Configure
+from archive.framework.world_engine.debug.debugger import Debugger
+from archive.framework.world_engine.func.json_export import json_export
+from archive.framework.world_engine.func.json_import import json_import
+from archive.framework.world_engine.interface.canvas import Canvas
+from archive.framework.world_engine.interface.sidenav import Sidenav
+from archive.framework.world_engine.utils.config import *
+from archive.framework.world_engine.utils.imports import *
 
 
 class WorldEngine:

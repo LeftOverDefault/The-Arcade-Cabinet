@@ -1,7 +1,7 @@
-from framework.world_engine.classes.layer import Layer
-from framework.world_engine.classes.tile.canvas_tile import CanvasTile
-from framework.world_engine.func.import_cut_graphics import import_cut_graphics
-from framework.world_engine.utils.imports import *
+from archive.framework.world_engine.classes.layer import Layer
+from archive.framework.world_engine.classes.tile.canvas_tile import CanvasTile
+from archive.framework.world_engine.func.import_cut_graphics import import_cut_graphics
+from archive.framework.world_engine.utils.imports import *
 
 
 class Canvas:

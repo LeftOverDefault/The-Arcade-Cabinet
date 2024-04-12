@@ -18,8 +18,11 @@ def main_menu(game):
 
     def play_button_event(event):
         fade_out(int(2.5), fade_surf, game.arcade.display_surface, game.arcade.screen, game.main_menu.render)
+        fade_in(int(2.5), fade_surf, game.arcade.display_surface, game.arcade.screen, game.arcade.render)
         game.arcade.run()
     def options_button_event(event):
+        fade_out(int(2.5), fade_surf, game.arcade.display_surface, game.arcade.screen, game.main_menu.render)
+        fade_in(int(2.5), fade_surf, game.arcade.display_surface, game.arcade.screen, game.options_menu.render)
         game.options_menu.run()
     def quit_button_event(event):
         framework.imports.pygame.quit()

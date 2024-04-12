@@ -12,9 +12,13 @@ def video_options_menu(game):
     back_button = Button(img, "Back", [game.arcade.display_surface.get_width() // 2, (game.arcade.display_surface.get_height() // 2) + 40], game.video_options_menu)
 
     def resolution_up_button_event(event):
-        ...
+        game.config.screen_multiplier += 2
+        game.arcade.screen = framework.imports.pygame.display.set_mode((192 * game.config.screen_multiplier, 108 * game.config.screen_multiplier))
+        game.arcade.debugger.rect = game.arcade.debugger.surface.get_rect(bottomright=game.arcade.screen.get_size())
     def resolution_down_button_event(event):
-        ...
+        game.config.screen_multiplier -= 2
+        game.arcade.screen = framework.imports.pygame.display.set_mode((192 * game.config.screen_multiplier, 108 * game.config.screen_multiplier))
+        game.arcade.debugger.rect = game.arcade.debugger.surface.get_rect(bottomright=game.arcade.screen.get_size())
     def back_button_event(event):
         back_button.menu.running = False
 

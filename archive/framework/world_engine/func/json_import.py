@@ -1,10 +1,10 @@
-from framework.world_engine.classes.tile.canvas_tile import CanvasTile
-from framework.world_engine.classes.camera import Camera
-from framework.world_engine.classes.configure import Configure
-from framework.world_engine.classes.layer import Layer
-from framework.world_engine.func.import_cut_graphics import import_cut_graphics
-from framework.world_engine.interface.canvas import Canvas
-from framework.world_engine.utils.imports import *
+from archive.framework.world_engine.classes.tile.canvas_tile import CanvasTile
+from archive.framework.world_engine.classes.camera import Camera
+from archive.framework.world_engine.classes.configure import Configure
+from archive.framework.world_engine.classes.layer import Layer
+from archive.framework.world_engine.func.import_cut_graphics import import_cut_graphics
+from archive.framework.world_engine.interface.canvas import Canvas
+from archive.framework.world_engine.utils.imports import *
 
 
 def json_import(camera: Camera, canvas: Canvas, config: Configure):

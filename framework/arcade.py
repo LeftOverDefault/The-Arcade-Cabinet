@@ -1,3 +1,4 @@
+from framework.debug.debugger import Debugger
 from framework.utils.imports import *
 
 
@@ -23,6 +24,8 @@ class Arcade:
         self.config.fullscreen = False
         self.running = True
 
+        self.debugger = Debugger(self.config.font_path, self.config)
+
         print(f"arcade 0.1.0 (Python {platform.python_version()})")
 
 
@@ -47,9 +50,9 @@ class Arcade:
                     exit()
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_F11:
-                        self.fullscreen = not self.fullscreen
+                        self.config.fullscreen = not self.config.fullscreen
 
-                        if self.fullscreen == True:
+                        if self.config.fullscreen == True:
                             self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
                         else:
                             self.screen = pygame.display.set_mode((192 * self.config.screen_multiplier, 108 * self.config.screen_multiplier))
@@ -66,5 +69,3 @@ class Arcade:
                 self.debugger.draw()
 
             pygame.display.update()
-
-

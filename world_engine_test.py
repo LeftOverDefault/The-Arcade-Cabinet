@@ -1,4 +1,4 @@
-from framework_old.world_engine import world_engine
+from archive.framework.world_engine import world_engine
 
 
 config = {
@@ -17,10 +17,14 @@ config = {
     "font_size": 1,
     "world_name": "overworld",
     "layers": [
-        "Layer_1",
-        "Layer_2"
+        "Ground_1",
+        "Ground_2",
+        "Ground_3",
+        "Ground_4",
+        "Fences",
+        "Bushes",
     ],
-    "build_directory": "./build/"
+    "build_directory": "./src/worlds/"
 }
 
 

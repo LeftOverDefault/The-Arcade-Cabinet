@@ -1,5 +1,5 @@
-from framework.world_engine.utils.imports import *
-from framework.world_engine.font.font import Font
+from archive.framework.world_engine.utils.imports import *
+from archive.framework.world_engine.font.font import Font
 
 class Debugger:
     def __init__(self, font_path, config) -> None:

@@ -31,6 +31,9 @@ class Game:
         self.video_options_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
         self.pause_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
 
+        self.world = framework.World("overworld", self.arcade.display_surface, self.config)
+
+
         self.on_init()
 
 
@@ -40,12 +43,23 @@ class Game:
         self.arcade.events = self.events
 
 
+    def render_debugger(self):
+        self.arcade.debugger.debug_info.clear()
+
+        self.arcade.debugger.debug_info.append(f"Debug Menu:")
+        self.arcade.debugger.debug_info.append(f"FPS: {round(number=self.arcade.clock.get_fps())}")
+        self.arcade.debugger.debug_info.append(f"Delta Time: {round(self.arcade.delta_time, 4)}")
+        self.arcade.debugger.debug_info.append(f"Player Pos: x = {int(self.world.player.position.x)}, y = {int(self.world.player.position.y)}")
+        self.arcade.debugger.debug_info.append(f"Player Status: {self.world.player.status}")
+
+
     def render(self) -> None:
-        ...
+        self.world.render()
+        self.render_debugger()
 
 
     def update(self, delta_time) -> None:
-        ...
+        self.world.update(delta_time)
 
 
     def events(self, event) -> None:
@@ -55,8 +69,8 @@ class Game:
 
 
     def run(self) -> None:
-        self.banner.run()
-        fade_in(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.main_menu.render)
+        # self.banner.run()
+        # fade_in(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.main_menu.render)
         self.main_menu.run()
 
 
