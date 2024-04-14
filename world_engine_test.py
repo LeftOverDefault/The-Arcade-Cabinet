@@ -3,7 +3,7 @@ from archive.framework.world_engine import world_engine
 
 config = {
     "screen_multiplier": 6,
-    "display_surface_multiplier": 4,
+    "display_surface_multiplier": 2,
     "tile_size": 16,
     "chunk_size": 8,
     "debug": False,
@@ -17,12 +17,8 @@ config = {
     "font_size": 1,
     "world_name": "overworld",
     "layers": [
-        "Ground_1",
-        "Ground_2",
-        "Ground_3",
-        "Ground_4",
-        "Fences",
-        "Bushes",
+        "Layer_1",
+        "Layer_2",
     ],
     "build_directory": "./src/worlds/"
 }

@@ -1,6 +1,7 @@
 #! /usr/bin/python
 import framework
 from framework.func.fade_in import fade_in
+from framework.func.fade_out import fade_out
 from framework.interface.menu import Menu
 
 from src.menus.video_options_menu import video_options_menu
@@ -65,12 +66,13 @@ class Game:
     def events(self, event) -> None:
         if event.type == framework.imports.pygame.KEYDOWN:
             if event.key == framework.imports.pygame.K_ESCAPE:
+                fade_out(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.arcade.render)
                 self.pause_menu.run()
 
 
     def run(self) -> None:
-        # self.banner.run()
-        # fade_in(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.main_menu.render)
+        self.banner.run()
+        fade_in(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.main_menu.render)
         self.main_menu.run()
 
 
