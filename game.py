@@ -4,11 +4,11 @@ from framework.func.fade_in import fade_in
 from framework.func.fade_out import fade_out
 from framework.interface.menu import Menu
 
-from src.menus.video_options_menu import video_options_menu
 from src.menus.audio_options_menu import audio_options_menu
+from src.menus.main_menu import main_menu
 from src.menus.options_menu import options_menu
 from src.menus.pause_menu import pause_menu
-from src.menus.main_menu import main_menu
+from src.menus.video_options_menu import video_options_menu
 from src.utils import config
 from src.screens.banner import Banner
 
@@ -26,7 +26,7 @@ class Game:
 
         self.banner = Banner(self.arcade.screen)
 
-        self.main_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
+        # self.main_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
         self.options_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
         self.audio_options_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
         self.video_options_menu = Menu(self.arcade.screen, self.arcade.display_surface, self.config)
@@ -71,19 +71,13 @@ class Game:
 
 
     def run(self) -> None:
-        self.banner.run()
-        fade_in(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.main_menu.render)
+        # self.banner.run()
+        # fade_in(int(2.5), self.main_menu.fade_surf, self.arcade.display_surface, self.arcade.screen, self.main_menu.render)
         self.main_menu.run()
 
 
 if __name__ == "__main__":
     game = Game(configuration)
-
-    game.main_menu.background_color = (255, 0, 0)
-    game.options_menu.background_color = (0, 255, 0)
-    game.audio_options_menu.background_color = (255, 255, 0)
-    game.video_options_menu.background_color = (255, 0, 255)
-    game.pause_menu.background_color = (0, 0, 255)
 
     main_menu(game)
     options_menu(game)
