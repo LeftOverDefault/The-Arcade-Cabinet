@@ -40,6 +40,7 @@ class MainMenu(Menu):
 
         self.play_button_rect_y_counter = self.display_surface.get_height()
 
+
     def render(self):
         super().render()
     
