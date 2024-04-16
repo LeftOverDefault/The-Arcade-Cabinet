@@ -22,12 +22,10 @@ class VideoOptionsMenu(framework.Menu):
             button.update(delta_time)
     
 
-    def events(self, event: framework.imports.pygame.Event) -> None:
-        if self.resolution_up_button.check_input(event):
-            self.resolution += 1
+    def events(self, event: framework.imports.pygame.event) -> None:
         # if self.video_options_button.check_input(event):
         #     self.state_handler.update_state("video_options_menu")
         # elif self.audio_options_button.check_input(event):
         #     self.state_handler.update_state("audio_options_menu")
-        elif self.back_button.check_input(event):
+        if self.back_button.check_input(event):
             self.state_handler.update_state("options_menu")

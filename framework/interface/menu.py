@@ -20,5 +20,5 @@ class Menu:
         ...
     
 
-    def events(self, event: pygame.Event) -> None:
+    def events(self, event: pygame.event) -> None:
         ...

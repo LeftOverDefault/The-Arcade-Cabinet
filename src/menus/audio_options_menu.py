@@ -22,7 +22,7 @@ class AudioOptionsMenu(framework.Menu):
             button.update(delta_time)
 
 
-    def events(self, event: framework.imports.pygame.Event) -> None:
+    def events(self, event: framework.imports.pygame.event) -> None:
         # if self.video_options_button.check_input(event):
         #     self.state_handler.update_state("video_options_menu")
         # elif self.audio_options_button.check_input(event):

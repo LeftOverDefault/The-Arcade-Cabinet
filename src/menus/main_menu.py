@@ -7,7 +7,7 @@ class MainMenu(framework.Menu):
         self.button_image = framework.imports.pygame.Surface((128, 48))
         self.button_image.fill((255, 255, 0))
 
-        self.play_button = framework.Button(self.button_image, [100, 100], self)
+        self.play_button = framework.Button(self.button_image, [self.display_surface.get_width() // 2, self.display_surface.get_height() // 2], self)
         self.options_button = framework.Button(self.button_image, [100, 164], self)
         self.quit_button = framework.Button(self.button_image, [100, 228], self)
     
@@ -22,7 +22,7 @@ class MainMenu(framework.Menu):
             button.update(delta_time)
     
 
-    def events(self, event: framework.imports.pygame.Event) -> None:
+    def events(self, event: framework.imports.pygame.event) -> None:
         if self.play_button.check_input(event):
             self.state_handler.update_state("main_game")
         elif self.options_button.check_input(event):
