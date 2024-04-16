@@ -1,0 +1,9 @@
+framework/__pycache__
+framework/classes/__pycache__
+# framework/classes/tile/__pycache__
+# framework/classes/sprite/__pycache__
+# framework/debug/__pycache__
+# framework/font/__pycache__
+framework/func/__pycache__
+# framework/interface/__pycache__
+framework/utils/__pycache__
