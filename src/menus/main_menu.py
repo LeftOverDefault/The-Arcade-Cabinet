@@ -15,6 +15,8 @@ class MainMenu(framework.Menu):
 
         self.settings = settings
 
+        self.first_exec = True
+
         self.lang = json_read(framework.imports.os.path.join(".", "src", "lang", f"{json_read(self.settings)["lang"]}.json"))
 
         self.create_buttons()
@@ -28,13 +30,16 @@ class MainMenu(framework.Menu):
         self.play_button_anim = Tween(begin=self.display_surface.get_height() + (1 * 128), end=self.display_surface.get_height() // 2, duration=2000, easing=Easing.BOUNCE, easing_mode=EasingMode.OUT, boomerang=False,  loop=False)
         self.options_button_anim = Tween(begin=self.display_surface.get_height() + (2 * 128), end=self.display_surface.get_height() // 2 + 64, duration=2500, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
         self.quit_button_anim = Tween(begin=self.display_surface.get_height() + (3 * 128), end=self.display_surface.get_height() // 2 + 128, duration=3000, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
-        
+    
+
+    def on_load(self):
         self.play_button_anim.start()
         self.options_button_anim.start()
         self.quit_button_anim.start()
 
 
     def render(self):
+        self.display_surface.fill("#070707")
         self.display_surface.blit(self.play_button.image, self.play_button.rect)
         self.display_surface.blit(self.options_button.image, self.options_button.rect)
         self.display_surface.blit(self.quit_button.image, self.quit_button.rect)

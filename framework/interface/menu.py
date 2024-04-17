@@ -22,3 +22,8 @@ class Menu:
 
     def events(self, event: pygame.event) -> None:
         ...
+
+    
+    def run(self, delta_time) -> None:
+        self.render()
+        self.update(delta_time)

@@ -78,20 +78,15 @@ class Main:
             self.delta_time = self.clock.tick(self.fps) / 1000
 
             if self.state_handler.current_state == "pre_menu":
-                self.pre_menu.render()
-                self.pre_menu.update(self.delta_time)
+                self.pre_menu.run(self.delta_time)
             elif self.state_handler.current_state == "main_menu":
-                self.main_menu.render()
-                self.main_menu.update(self.delta_time)
+                self.main_menu.run(self.delta_time)
             elif self.state_handler.current_state == "options_menu":
-                self.options_menu.render()
-                self.options_menu.update(self.delta_time)
+                self.options_menu.run(self.delta_time)
             elif self.state_handler.current_state == "video_options_menu":
-                self.video_options_menu.render()
-                self.video_options_menu.update(self.delta_time)
+                self.video_options_menu.run(self.delta_time)
             elif self.state_handler.current_state == "audio_options_menu":
-                self.audio_options_menu.render()
-                self.audio_options_menu.update(self.delta_time)
+                self.audio_options_menu.run(self.delta_time)
             # elif self.state_handler.current_state == "main_game":
                 # self.options_menu.render()
                 # self.options_menu.update(self.delta_time)

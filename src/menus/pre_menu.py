@@ -22,13 +22,14 @@ class PreMenu(framework.Menu):
     
 
     def create_buttons(self) -> None:
-        self.play_button = framework.Button(self.button_image, [self.display_surface.get_width() // 2, self.display_surface.get_height() + (1 * 128)], self)
+        self.play_button = framework.Button(self.button_image, [self.display_surface.get_width() // 2, self.display_surface.get_height() // 2], self)
 
 
     def render(self):
-        self.display_surface.blit(self.play_button.image, self.play_button.rect)
+        self.display_surface.fill("#070707")
         text = self.title_font.render(self.lang["menu.title"], True, (255, 255, 255))
         self.display_surface.blit(text, [self.display_surface.get_width() // 2 - (text.get_width() // 2), 128])
+        self.display_surface.blit(self.play_button.image, self.play_button.rect)
     
 
     def update(self, delta_time: float):
