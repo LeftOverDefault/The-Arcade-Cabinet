@@ -1,8 +1,9 @@
 import framework
+from framework.func.json_read import json_read
 
 
 class OptionsMenu(framework.Menu):
-    def __init__(self, screen, display_surface, clock, fps, state_handler) -> None:
+    def __init__(self, screen, display_surface, clock, fps, state_handler, settings) -> None:
         super().__init__(screen, display_surface, clock, fps, state_handler)
         self.button_image = framework.imports.pygame.Surface((128, 48))
         self.button_image.fill((255, 0, 255))
@@ -10,9 +11,17 @@ class OptionsMenu(framework.Menu):
         self.video_options_button = framework.Button(self.button_image, [100, 100], self)
         self.audio_options_button = framework.Button(self.button_image, [100, 164], self)
         self.back_button = framework.Button(self.button_image, [100, 228], self)
+
+        self.settings = settings
     
 
     def render(self):
+        mouse_pos = [framework.imports.pygame.mouse.get_pos()[0] // (json_read(self.settings)["current_screen_multiplier"] / json_read(self.settings)["display_surface_multiplier"]), framework.imports.pygame.mouse.get_pos()[1] // (json_read(self.settings)["current_screen_multiplier"] / json_read(self.settings)["display_surface_multiplier"])]
+        
+        self.video_options_button.mouse_collide_point = mouse_pos
+        self.audio_options_button.mouse_collide_point = mouse_pos
+        self.back_button.mouse_collide_point = mouse_pos
+
         for button in self.buttons:
             self.display_surface.blit(button.image, button.rect)
     

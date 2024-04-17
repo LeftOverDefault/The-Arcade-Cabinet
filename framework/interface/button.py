@@ -10,9 +10,11 @@ class Button:
 
         self.menu.buttons.append(self)
 
+        self.mouse_collide_point = pygame.mouse.get_pos()
+
 
     def check_input(self, event) -> bool:
-        if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]):
+        if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(self.mouse_collide_point):
             if event.button == 1:
                 return True
         return False

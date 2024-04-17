@@ -2,9 +2,9 @@ from framework.utils.imports import *
 
 
 class Font:
-    def __init__(self, path, size, color, config) -> None:
+    def __init__(self, path, size, color) -> None:
         self.spacing = 1
-        self.character_order = config.font_order
+        self.character_order = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", ".", "-", ",", ":", "+", "'", "!", "?", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "(", ")", "/", "_", "=", "\\", "[", "]", "*", "\"", "<", ">", ";", "|", "~", "£", "ƒ", "{", "}", "@", "#", "$", "%", "&", "^", "`"],
         font_img = pygame.image.load(path).convert_alpha()
         current_char_width = 0
         self.characters = {}
@@ -36,21 +36,27 @@ class Font:
 
     def render(self, surface: pygame.Surface, text, location):
         x_offset = 0
+        center = 0
         for char in text:
             if char != " ":
-                surface.blit(source=self.characters[char], dest=(location[0] + x_offset, location[1]))
+                center += self.characters[char].get_width() + self.spacing
+            else:
+                center += self.space_width + self.spacing
+        for char in text:
+            if char != " ":
+                surface.blit(source=self.characters[char], dest=(location[0] + (x_offset) - (center // 2), location[1]))
                 x_offset += self.characters[char].get_width() + self.spacing
             else:
                 x_offset += self.space_width + self.spacing
 
 
-    def return_image(self, text):
-        x_offset = 0
-        text_images = []
-        for char in text:
-            if char != " ":
-                text_images.append([self.characters[char], x_offset])
-                x_offset += self.characters[char].get_width() + self.spacing
-            else:
-                x_offset += self.space_width + self.spacing
-        return text_images, x_offset
+    # def return_image(self, text):
+    #     x_offset = 0
+    #     text_images = []
+    #     for char in text:
+    #         if char != " ":
+    #             text_images.append([self.characters[char], x_offset])
+    #             x_offset += self.characters[char].get_width() + self.spacing
+    #         else:
+    #             x_offset += self.space_width + self.spacing
+    #     return text_images, x_offset
