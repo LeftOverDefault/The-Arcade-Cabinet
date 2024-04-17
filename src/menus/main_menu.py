@@ -25,7 +25,7 @@ class MainMenu(framework.Menu):
         self.options_button = framework.Button(self.button_image, [self.display_surface.get_width() // 2, self.display_surface.get_height() + (2 * 128)], self)
         self.quit_button = framework.Button(self.button_image, [self.display_surface.get_width() // 2, self.display_surface.get_height() + (3 * 128)], self)
     
-        self.play_button_anim = Tween(begin=self.display_surface.get_height() + (1 * 128), end=self.display_surface.get_height() // 2, duration=2000, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
+        self.play_button_anim = Tween(begin=self.display_surface.get_height() + (1 * 128), end=self.display_surface.get_height() // 2, duration=2000, easing=Easing.BOUNCE, easing_mode=EasingMode.OUT, boomerang=False,  loop=False)
         self.options_button_anim = Tween(begin=self.display_surface.get_height() + (2 * 128), end=self.display_surface.get_height() // 2 + 64, duration=2500, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
         self.quit_button_anim = Tween(begin=self.display_surface.get_height() + (3 * 128), end=self.display_surface.get_height() // 2 + 128, duration=3000, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
         

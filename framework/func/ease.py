@@ -184,14 +184,17 @@ class Ease:
 
     @staticmethod
     def out_bounce(time_step: float) -> float:
-        if time_step < (1 / 2.75):
-            return 7.5625 * math.pow(time_step, 2)
-        elif time_step < (2 / 2.75):
-            return 7.5625 * math.pow(time_step - 1.5 / 2.75, 2) + .75
-        elif time_step < (2.5 / 2.75):
-            return 7.5625 * math.pow(time_step - 2.25 / 2.75, 2) + .9375
+        n1 = 7.5625
+        d1 = 2.75
+
+        if time_step < (1 / d1):
+            return n1 * math.pow(time_step, 2)
+        elif time_step < (2 / d1):
+            return n1 * math.pow(time_step - 1.5 / d1, 2) + 0.75
+        elif time_step < (2.5 / d1):
+            return n1 * math.pow(time_step - 2.25 / d1, 2) + 0.9375
         else:
-            return 7.5625 * math.pow(time_step - 2.625 / 2.75, 2) + .984375
+            return n1 * math.pow(time_step - 2.625 / d1, 2) + 0.984375
 
     @staticmethod
     def in_out_bounce(time_step: float) -> float:
