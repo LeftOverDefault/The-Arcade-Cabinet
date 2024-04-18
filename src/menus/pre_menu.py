@@ -22,7 +22,7 @@ class PreMenu(framework.Menu):
         self.lang = json_read(framework.imports.os.path.join(".", "src", "lang", f"{json_read(self.settings)["lang"]}.json"))
 
         self.create_buttons()
-    
+
 
     def create_buttons(self) -> None:
         self.play_button = framework.Button(self.button_image, [self.display_surface.get_width() // 2, self.display_surface.get_height() // 2], self)
@@ -48,7 +48,6 @@ class PreMenu(framework.Menu):
 
         for bar, bar_rect in self.bars.items():
             bar.fill((255, 0, 0))
-
 
 
     def render(self):
@@ -84,7 +83,7 @@ class PreMenu(framework.Menu):
             elif int(self.animations_2[index].value) == self.bar_buttons[0].rect.topleft[1]:
                 self.animations_2[index]._value = self.bar_buttons[0].rect.topleft[1] - 64
                 self.animations_in_out[index] = "in"
-            
+
             if self.animations_in_out[index] == "in":
                 bar_rect.y = self.animations_1[index].value
             else:
