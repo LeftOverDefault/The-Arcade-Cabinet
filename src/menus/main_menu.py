@@ -13,6 +13,8 @@ class MainMenu(framework.Menu):
 
         self.font = Font("assets/graphics/font/font.png", 6, (255, 255, 255))
 
+        self.bg = framework.imports.pygame.image.load(framework.imports.os.path.join(".", "assets", "graphics", "ui", "main_menu.png")).convert_alpha()
+
         self.settings = settings
 
         self.first_exec = True
@@ -30,7 +32,7 @@ class MainMenu(framework.Menu):
         self.play_button_anim = Tween(begin=self.display_surface.get_height() + (1 * 128), end=self.display_surface.get_height() // 2, duration=2000, easing=Easing.BOUNCE, easing_mode=EasingMode.OUT, boomerang=False,  loop=False)
         self.options_button_anim = Tween(begin=self.display_surface.get_height() + (2 * 128), end=self.display_surface.get_height() // 2 + 64, duration=2500, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
         self.quit_button_anim = Tween(begin=self.display_surface.get_height() + (3 * 128), end=self.display_surface.get_height() // 2 + 128, duration=3000, easing=Easing.QUAD, easing_mode=EasingMode.IN_OUT, boomerang=False,  loop=False)
-    
+
 
     def on_load(self):
         self.play_button_anim.start()
@@ -39,11 +41,12 @@ class MainMenu(framework.Menu):
 
 
     def render(self):
-        self.display_surface.fill("#070707")
+        self.display_surface.fill("#cc8e62")
+        self.display_surface.blit(framework.imports.pygame.transform.scale(self.bg, self.display_surface.get_size()), [0, 0])
         self.display_surface.blit(self.play_button.image, self.play_button.rect)
         self.display_surface.blit(self.options_button.image, self.options_button.rect)
         self.display_surface.blit(self.quit_button.image, self.quit_button.rect)
-        self.font.render(self.display_surface, self.lang["menu.title"], [self.display_surface.get_width() // 2, self.display_surface.get_height() // 4])
+        # self.font.render(self.display_surface, self.lang["menu.title"], [self.display_surface.get_width() // 2, self.display_surface.get_height() // 4])
     
 
     def update(self, delta_time: float):

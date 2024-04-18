@@ -20,6 +20,12 @@ class Button:
         return False
     
 
+    def hover(self, event) -> bool:
+        if self.rect.collidepoint(self.mouse_collide_point):
+            return True
+        return False
+    
+
     def render(self) -> None:
         ...
 

@@ -1,14 +1,11 @@
-import pygame
 import framework
 
-from framework.func.json_read import json_read
-from framework.func.json_write import json_write
-from framework.func.tween import Easing
 from src.menus.pre_menu import PreMenu
 from src.menus.audio_options_menu import AudioOptionsMenu
 from src.menus.video_options_menu import VideoOptionsMenu
 from src.menus.main_menu import MainMenu
 from src.menus.options_menu import OptionsMenu
+
 
 class Main:
     def __init__(self) -> None:
@@ -23,11 +20,11 @@ class Main:
 
 
     def on_init(self) -> None:
-        if json_read(self.settings)["fullscreen"] == True:
+        if framework.json_read(self.settings)["fullscreen"] == True:
             self.screen = framework.imports.pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         else:
-            self.screen = framework.imports.pygame.display.set_mode((192 * json_read(self.settings)["current_screen_multiplier"], 108 * json_read(self.settings)["current_screen_multiplier"]))
-        self.display_surface = framework.imports.pygame.Surface((192 * json_read(self.settings)["display_surface_multiplier"], 108 * json_read(self.settings)["display_surface_multiplier"]))
+            self.screen = framework.imports.pygame.display.set_mode((192 * framework.json_read(self.settings)["current_screen_multiplier"], 108 * framework.json_read(self.settings)["current_screen_multiplier"]))
+        self.display_surface = framework.imports.pygame.Surface((192 * framework.json_read(self.settings)["display_surface_multiplier"], 108 * framework.json_read(self.settings)["display_surface_multiplier"]))
 
         self.clock = framework.imports.pygame.time.Clock()
         self.fps = 60
@@ -35,6 +32,17 @@ class Main:
         self.running = True
 
         self.state_handler = framework.StateHandler()
+
+        cursor_img = framework.imports.pygame.transform.scale(framework.imports.pygame.image.load(framework.imports.os.path.join(".", "assets", "graphics", "ui", "cursor.png")).convert_alpha(), (24, 24))
+
+        cursor = framework.imports.pygame.Cursor((cursor_img.get_width() // 2, cursor_img.get_height() // 2), cursor_img)
+
+        framework.imports.pygame.mouse.set_cursor(cursor)
+
+
+
+
+
     
 
     def create_menus(self) -> None:
@@ -54,14 +62,14 @@ class Main:
                     exit()
                 elif event.type == framework.imports.pygame.KEYDOWN:
                     if event.key == framework.imports.pygame.K_F11:
-                        json_write(self.settings, "fullscreen", not json_read(self.settings)["fullscreen"])
+                        framework.json_write(self.settings, "fullscreen", not framework.json_read(self.settings)["fullscreen"])
 
-                        if json_read(self.settings)["fullscreen"] == True:
+                        if framework.json_read(self.settings)["fullscreen"] == True:
                             self.screen = framework.imports.pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
-                            json_write(self.settings, "current_screen_multiplier", self.screen.get_width() / 192)
+                            framework.json_write(self.settings, "current_screen_multiplier", self.screen.get_width() / 192)
                         else:
-                            json_write(self.settings, "current_screen_multiplier", json_read(self.settings)["screen_multiplier"])
-                            self.screen = framework.imports.pygame.display.set_mode((192 * json_read(self.settings)["current_screen_multiplier"], 108 * json_read(self.settings)["current_screen_multiplier"]))
+                            framework.json_write(self.settings, "current_screen_multiplier", framework.json_read(self.settings)["screen_multiplier"])
+                            self.screen = framework.imports.pygame.display.set_mode((192 * framework.json_read(self.settings)["current_screen_multiplier"], 108 * framework.json_read(self.settings)["current_screen_multiplier"]))
 
                 if self.state_handler.current_state == "pre_menu":
                     self.pre_menu.events(event)

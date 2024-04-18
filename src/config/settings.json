@@ -1,1 +1,7 @@
-{"current_screen_multiplier": 6, "screen_multiplier": 10, "display_surface_multiplier": 6, "fullscreen": false, "lang": "en_gb"}
+{
+    "current_screen_multiplier": 6,
+    "screen_multiplier": 10,
+    "display_surface_multiplier": 6,
+    "fullscreen": false,
+    "lang": "en_gb"
+}
